@@ -412,7 +412,7 @@ select {
 	                        //$("#ClassID").hide();
 	                    }
 	                    $(this).data(deptValue, objs);
-	                }, "json");
+	                }, "json"); 
 	            }
 	        } else {
 	            //如果值为空，那么班级下拉框要隐藏
