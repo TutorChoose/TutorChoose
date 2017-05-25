@@ -65,7 +65,7 @@ public class ExportExcel {
 				setClassData(sheet);
 				break;
 			case "UnSelectStudent":
-				System.out.println("导出未选择导师学生");
+				//System.out.println("导出未选择导师学生");
 				setUnSelectStudentData(sheet);
 				break;
 			default:
@@ -254,7 +254,7 @@ public class ExportExcel {
 		
 		int conut = 2;
 		StudentMsDAO studentDao = new StudentMsDAO();
-		System.out.println("开始导出未选择导师的学生列表");
+		// System.out.println("开始导出未选择导师的学生列表");
 		ArrayList<Map<String, String>> studentMsgs =studentDao.queryUnSelectStudentList();
 		for (Map<String, String> studentMsg : studentMsgs) {
 			sheet.addCell(new Label( 0 , conut , studentMsg.get("stuid"), wcf2));

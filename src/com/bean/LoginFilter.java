@@ -46,12 +46,12 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
-		System.out.println("µÇÂ¼¹ýÂËÆ÷");
+		// System.out.println("µÇÂ¼¹ýÂËÆ÷");
 		HttpServletRequest res=(HttpServletRequest) request;
 		HttpServletResponse resp=(HttpServletResponse)response;
 		HttpSession session=res.getSession();
 		String url=res.getContextPath()+redirectURL;
-		System.out.println("url:"+url);
+		// System.out.println("url:"+url);
 		Object logined=session.getAttribute("isLogined");
 		if(null==logined||!"yes".equals((String)logined)){
 			resp.sendRedirect(url);

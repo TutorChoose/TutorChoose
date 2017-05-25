@@ -48,7 +48,7 @@ public class InfoEdit extends HttpServlet {
 		String teacherTel = request.getParameter("teacherTel");
 		String teacherIntro = request.getParameter("teacherIntro");
 		teacherIntro = new String(teacherIntro.getBytes("ISO-8859-1"), "UTF-8");
-		System.out.println("teacherIntro:"+teacherIntro);
+		// System.out.println("teacherIntro:"+teacherIntro);
 		
 		TeacherDAO teadao = new TeacherDAO();
 		HttpSession session = request.getSession();

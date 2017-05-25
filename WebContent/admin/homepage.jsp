@@ -744,7 +744,7 @@ input[type="file"] {
 			$("#studentFileName").val(fileName);
 	}
 	var activateTab = function(id) {
-    	console.log("1");
+    	// console.log("1");
 	    $(".tab-nav li").filter('.active').removeClass('active');
 	    $("section").filter('.active').removeClass('active');
 	    $(".tab-nav li").has('a[href="' + id + '"]').addClass('active');
@@ -754,7 +754,7 @@ input[type="file"] {
 		$('.tab-group').tabify();
 		<%
 		String clickType = (String)session.getAttribute("clickType");
-		System.out.println("clickType:"+clickType);
+		// System.out.println("clickType:"+clickType);
 		if(clickType!=null){
 			if(clickType.equals("dept")){
 				out.print("activateTab('#tab1');"); 

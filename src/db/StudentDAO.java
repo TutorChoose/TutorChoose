@@ -181,7 +181,7 @@ public class StudentDAO {
 		ArrayList<Map<String,String>> list=dbCon.queryForList(sql);
 		if(list != null && list.size() > 0){
 			cnt = Integer.parseInt(list.get(0).get("cnt"));
-			System.out.println("now studengcount:"+cnt);
+			// System.out.println("now studengcount:"+cnt);
 		}
 		return cnt;
 	}
