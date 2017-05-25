@@ -49,6 +49,14 @@
     <servlet-name>UpdateInfoServlet</servlet-name>
     <url-pattern>/admin/updateInfo</url-pattern>
   </servlet-mapping>
+   <servlet>
+    <servlet-name>ClassServlet</servlet-name>
+    <servlet-class>com.admin.servlet.ClassServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ClassServlet</servlet-name>
+    <url-pattern>/admin/class</url-pattern>
+  </servlet-mapping>
   <!-- 过滤器配置 -->
   <filter>
 	<filter-name>LogFilter</filter-name>

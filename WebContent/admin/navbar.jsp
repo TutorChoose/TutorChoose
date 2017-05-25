@@ -76,7 +76,7 @@ nav header .welcome{
 				</div>
 				<div class="menu">
 					<a href="homepage.jsp">信息列表</a>
-					<a href="setting.jsp">个人设置</a>
+					<a href="setting.jsp">设置中心</a>
 				</div>
 				<div class="welcome">
 					欢迎进入：<%=session.getAttribute("username")%>&nbsp;&nbsp;<a href="../login.jsp">

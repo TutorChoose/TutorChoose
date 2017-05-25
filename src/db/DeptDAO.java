@@ -21,4 +21,5 @@ public class DeptDAO implements java.io.Serializable{
 		HashMap hm = (HashMap) results.get(0);
 		return (String) hm.get("deptname");
 	}
+	
 }
