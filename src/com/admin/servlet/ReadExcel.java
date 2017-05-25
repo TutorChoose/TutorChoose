@@ -24,7 +24,7 @@ public class ReadExcel {
 		   Sheet sheet = book.getSheet(0);
 		   // 取得行数
 		   int rows = sheet.getRows();
-		   System.out.println(type);
+		   // System.out.println(type);
 		   if(type=="stuExcel"){
 			   importStuMsg(session, sheet, rows);
 		   } else if(type=="teacherExcel"){
@@ -92,7 +92,7 @@ public class ReadExcel {
 	       String tel=sheet.getCell(8,i).getContents();
 	       String Intro=sheet.getCell(9,i).getContents();
 	       // 插入到数据库
-	       System.out.println(TeacherID+TeacherName+DeptID+Sex+tel+Intro);
+	       // System.out.println(TeacherID+TeacherName+DeptID+Sex+tel+Intro);
 	       int j = teacherDao.addTeacher(TeacherID,TeacherName,DeptID,Sex,title,tel,Intro);
 	       if (j < 0) {
 				session.setAttribute("isError", "1");

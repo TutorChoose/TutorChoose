@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import com.bean.AdminMsg;
 
 import db.AdminMsDAO;
@@ -48,7 +50,7 @@ public class LoginCheck extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String userId = request.getParameter("username");
-		String userPwd = request.getParameter("password");
+		String userPwd = StringEscapeUtils.escapeSql(request.getParameter("password"));
 		String role = request.getParameter("role");
 		HttpSession session=request.getSession();	
 		session.removeAttribute("result");
@@ -61,7 +63,7 @@ public class LoginCheck extends HttpServlet {
 				//检测用户名和密码
 				StudentDAO login = new StudentDAO();
 				int num=login.checkLog(userId,userPwd);
-				System.out.println(num);
+				// System.out.println(num);
 				if(num != 1){
 					//提示错误信息，并返回主页
 					request.setAttribute("failTip", "登录失败");
@@ -69,7 +71,7 @@ public class LoginCheck extends HttpServlet {
 				}
 				else{
 					Map<String,String> ot = login.studentInfo(userId);
-					System.out.println(ot);
+					// System.out.println(ot);
 					//跳转到主页,并将用户和密码保存再session内
 					session.setAttribute("stuId", userId);
 					session.setAttribute("stuPwd", userPwd);
@@ -108,10 +110,10 @@ public class LoginCheck extends HttpServlet {
 			    	   }
 			    	   adminDao.close();
 		    	   } catch(java.lang.NullPointerException ex){
-		    		   System.out.print(ex.getMessage());
+		    		   // System.out.print(ex.getMessage());
 		    	   }
 				if (confirmPwd.equals(userPwd)) {
-			    	System.out.println("成功登陆");
+			    	// System.out.println("成功登陆");
 					session.setAttribute("username", username);
 					response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
 					session.setAttribute("isLogined","yes");

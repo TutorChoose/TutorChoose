@@ -149,6 +149,7 @@ select {
 							<p>专业</p>
 							<p>班级</p>
 							<p>绩点</p>
+							<p>电话</p>
 							<p>导师工号</p>
 							<p>导师姓名</p>
 							<p>状态</p>
@@ -202,7 +203,7 @@ select {
 								}
 								deptDao.close();
 								%>
-							</select> 
+							</select>  
 							<select name="ClassID" id="ClassID" value=<%=stuMsg.getClassID()%>>
 								<%
 									ClassMsDAO classDao = new ClassMsDAO();
@@ -222,7 +223,8 @@ select {
 								}
 								deptDao.close();
 								%>
-							</select> <input type="text" value="<%=stuMsg.getGrade()%>" name="Grade">
+							</select> 
+							<input type="text" value="<%=stuMsg.getGrade()%>" name="Grade">
 							<input type="text" value="<%=stuMsg.getTel()%>" name="tel">
 							<% 
 							  SelectTeacherDAO selectTeacherDao = new SelectTeacherDAO();
@@ -388,6 +390,36 @@ select {
 					}
 				});
 		}
+		$("#DeptID").change(function(){
+			//var deptValue = $("#DeptID  option:selected").val();
+	        var deptValue = $(this).val();
+	        //如果值不为空，则将下拉框的值传送给服务器
+	        if (deptValue != "") {
+	            if (!$(this).data(deptValue)) {
+	                //对应服务器端程序ClassServlet的属性，并将该Servlet中的数据转换为JSON格式
+	                $.post("class",{deptID: deptValue},function(data){
+	                    //接收服务器返回的班级 ,data为数组格式
+	                    var objs=eval(data); //解析json对象
+	                    //解析班级的数据，填充到班级下拉框中
+                        $("#ClassID").html("");
+                        $("<option value=''>请选择班级</option>").appendTo($("#ClassID"));
+	                    if (objs.length != 0) {
+	                        for (var i = 0; i < objs.length; i++) {
+	                            $("<option value='" + objs[i].classid + "'>" + objs[i].classname + "</option>").appendTo($("#ClassID"));
+	                        }
+	                    } else {
+	                        //没有任何汽车类型的数据
+	                        //$("#ClassID").hide();
+	                    }
+	                    $(this).data(deptValue, objs);
+	                }, "json");
+	            }
+	        } else {
+	            //如果值为空，那么班级下拉框要隐藏
+	            $("#ClassID").hide();
+	        }
+	    });
+
 	</script>
 </body>
 </html>

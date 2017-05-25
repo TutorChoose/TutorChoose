@@ -40,7 +40,7 @@ public class UploadServlet extends HttpServlet {
 		int i=0;
 		request.setCharacterEncoding("UTF-8");
 		if (ServletFileUpload.isMultipartContent(request)) { // 判断是否是上传文件
-			System.out.println("开始上传文件");
+			// System.out.println("开始上传文件");
 			// 基于磁盘文件项目创建一个工厂对象
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			// 创建一个新的文件上传对象
@@ -59,7 +59,7 @@ public class UploadServlet extends HttpServlet {
 				FileItem formitem = (FileItem) iter.next(); // 获取每个上传文件
 				if (!formitem.isFormField()) { // 忽略不是上传文件的表单域
 					String name = formitem.getName(); // 获取上传文件的名称, 只有当表单域时文件域的时候才有效
-					System.out.println(formitem.getSize());
+					// System.out.println(formitem.getSize());
 					if (formitem.getSize() > size) { // 如果上传文件大于规定的上传文件的大小
 						message = "您上传的文件太大，请选择不超过200M的文件";
 						break; // 退出程序
@@ -94,7 +94,7 @@ public class UploadServlet extends HttpServlet {
 				}else{
 					 if("uploadType".equals(formitem.getFieldName())) {
 						 uploadType = formitem.getString();
-						 System.out.println("uploadType: "+uploadType);
+						 // System.out.println("uploadType: "+uploadType);
 						 String type="";
 						// 调用ReadExcel类进行读出excel
 						 if(uploadType.equals("student")){
@@ -113,10 +113,10 @@ public class UploadServlet extends HttpServlet {
 			}
 		}
 		request.setAttribute("result", message); // 将提示信息保存在request对象中
-		System.out.println("插入");
+		// System.out.println("插入");
 		HttpSession session = request.getSession();
 		session.setAttribute("clickType", uploadType);
-		System.out.println("sessionType: "+session.getAttribute("clickType"));
+		// System.out.println("sessionType: "+session.getAttribute("clickType"));
     	response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
 	}
 

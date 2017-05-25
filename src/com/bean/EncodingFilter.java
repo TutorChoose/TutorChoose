@@ -45,11 +45,11 @@ public class EncodingFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
-		System.out.println("×Ö·û±àÂë¹ıÂËÆ÷");
+		// System.out.println("×Ö·û±àÂë¹ıÂËÆ÷");
 		if (!ignore) {
 			if (null == request.getCharacterEncoding()) {
 				request.setCharacterEncoding(encode);
-				System.out.println("setting encode: "+encode);
+				// System.out.println("setting encode: "+encode);
 			}
 		}
 		// pass the request along the filter chain

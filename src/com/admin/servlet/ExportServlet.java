@@ -52,7 +52,7 @@ public class ExportServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("成功导出");
+		// System.out.println("成功导出");
 		// 从服务器下载文件
 		downloadFile(request, response, filename);
 	}
@@ -61,12 +61,12 @@ public class ExportServlet extends HttpServlet {
         String n=URLDecoder.decode(fname,"UTF-8");
       
         String fullFilePath = this.getServletContext().getRealPath("/upload") +"\\"+ fname;
-        System.out.println(fullFilePath);
+        // System.out.println(fullFilePath);
         
         File file = new File(fullFilePath);
        
         if (file.exists()) {
-        	System.out.println("File exists!");
+        	// System.out.println("File exists!");
             String filename = URLEncoder.encode(file.getName(), "UTF-8");
             response.reset();
             response.setContentType("application/x-msdownloade");

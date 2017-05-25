@@ -53,11 +53,17 @@ public class SelectTeacher extends HttpServlet {
 		int privilege = 0;
 		ArrayList<Map<String,String>> teacherlist = so.teacherList(stuId);
 		//if the system open the privilege then teacher can choose students
-		if(pri.equals("ÄÜ") && systemPri.equals("on")){
+
+		System.out.println("systemPri:"+systemPri);
+		System.out.println("pri"+pri);
+		Map<String,String> tid = so.teacherInfoDetail(teacherId);
+		pri = (String)tid.get("privilege");
+		if(pri.equals("1") && systemPri.equals("on")){
 			privilege = 1;
 		}
 		//else the teacher has the system rule
 		else{
+			//System.out.println("privilege1:"+privilege);
 			int i = 0;
 			do{
 				privilege = Integer.parseInt(teacherlist.get(i).get("privilege"));

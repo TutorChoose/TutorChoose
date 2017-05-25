@@ -51,7 +51,7 @@ public class UpdateInfoServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");   
 		String userType= request.getParameter("userType");
 		String functionType= request.getParameter("functionType");
-		System.out.println("functionType: "+functionType);
+		//System.out.println("functionType: "+functionType);
 		session = request.getSession();
 		switch(functionType){
 		case "updateInfo":
@@ -147,7 +147,10 @@ public class UpdateInfoServlet extends HttpServlet {
 		        }
 			    DeptID=request.getParameter("DeptID");
 			    String classID=request.getParameter("ClassID");
-		        float grade=Float.parseFloat(request.getParameter("Grade"));
+			    float grade = 0;
+			    if(!request.getParameter("Grade").equals("") || request.getParameter("Grade")==null){
+		            grade=Float.parseFloat(request.getParameter("Grade"));
+			    }
 		        tel=request.getParameter("tel");
 		        Intro=request.getParameter("Intro");
 		        String teacherId=request.getParameter("TeacherID");
@@ -177,19 +180,18 @@ public class UpdateInfoServlet extends HttpServlet {
 			    	result="成功修改学生"+stuName+"信息";
 					session.setAttribute("isError", "0");
 				} else {
-					result="修改学生信息"+stuName+"失败";
+					result="修改学生"+stuName+"信息失败";
 					session.setAttribute("isError", "1");
-					response.setContentType("text/html;charset=UTF-8");	
 				}
 			    session.setAttribute("result", result);
-			    System.out.println(session.getAttribute("result"));
+			    //System.out.println(session.getAttribute("result"));
 			    response.sendRedirect(request.getContextPath()+"/admin/studentDetail.jsp?stuid="+stuID); 
 				break;
 			case "dept":
 				DeptMsDAO deptDao = new DeptMsDAO();
 			    DeptID=request.getParameter("DeptID");
 			    String deptName=request.getParameter("DeptName");
-			    System.out.println(DeptID+deptName);
+			    //System.out.println(DeptID+deptName);
 				// 插入到数据库
 		        i = deptDao.updateByDeptId(DeptID,deptName);
 		        deptDao.close();
@@ -198,13 +200,13 @@ public class UpdateInfoServlet extends HttpServlet {
 			    	session.setAttribute("isError", "0");
 				} else {
 					response.setContentType("text/html;charset=UTF-8");	
-					System.out.println("数据插入失败");
+					//System.out.println("数据插入失败");
 					session.setAttribute("isError", "1");
 					result="修改班级"+deptName+"的信息失败";
 				}
 			    session.setAttribute("result", result);
 			    session.setAttribute("clickType", userType);
-			    System.out.println(session.getAttribute("result"));
+			    //System.out.println(session.getAttribute("result"));
 			    response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
 				break;
 			case "class":
@@ -224,7 +226,7 @@ public class UpdateInfoServlet extends HttpServlet {
 				}
 			    session.setAttribute("result", result);
 			    session.setAttribute("clickType", userType);
-			    System.out.println(session.getAttribute("result"));
+			    //System.out.println(session.getAttribute("result"));
 			    response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
 				break;
 			default:
@@ -336,7 +338,7 @@ public class UpdateInfoServlet extends HttpServlet {
 		AdminMsDAO adminDao = new AdminMsDAO();
 		String PrivilegeModel= request.getParameter("PrivilegeModel");
 		// 设置规则
-		System.out.println("PrivilegeModel"+PrivilegeModel);
+		//System.out.println("PrivilegeModel"+PrivilegeModel);
 		if(request.getParameter("PrivilegeModel")==null){
 			PrivilegeModel = "off";
 		}
@@ -362,7 +364,7 @@ public class UpdateInfoServlet extends HttpServlet {
 	    String result="";
 		AdminMsDAO adminDao = new AdminMsDAO();
 		String AuthorityModel= request.getParameter("AuthorityModel");
-		System.out.println(AuthorityModel);
+		//System.out.println(AuthorityModel);
 		if(request.getParameter("AuthorityModel")==null){
 			AuthorityModel = "off";
 		}
@@ -396,7 +398,7 @@ public class UpdateInfoServlet extends HttpServlet {
 		if(request.getParameter("SinglePrivilege")!=null){
 			SinglePrivilege= Integer.parseInt(request.getParameter("SinglePrivilege"));
 		}
-		System.out.println("设置单个老师的反选模式"+TeacherID+" "+TeacherName+SinglePrivilege);
+		//System.out.println("设置单个老师的反选模式"+TeacherID+" "+TeacherName+SinglePrivilege);
 		// 设置规则
 		int i = teacherDao.setPrivilege(TeacherID, SinglePrivilege);
 		teacherDao.close();
@@ -418,7 +420,7 @@ public class UpdateInfoServlet extends HttpServlet {
 	    String result="";
 		AdminMsDAO adminDao = new AdminMsDAO();
 		String LimitModel= request.getParameter("LimitModel");
-		System.out.println(LimitModel);
+		// System.out.println(LimitModel);
 		if(request.getParameter("LimitModel")==null){
 			LimitModel = "off";
 		}

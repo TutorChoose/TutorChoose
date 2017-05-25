@@ -52,7 +52,7 @@ public class AddInfoServlet extends HttpServlet {
 		session.setAttribute("clickType", userType);
 		switch(userType){
 			case "teacher":
-				System.out.println("开始插入老师");
+				//System.out.println("开始插入老师");
 				TeacherMsDAO teacherDao = new TeacherMsDAO();
 				String TeacherID = request.getParameter("TeacherID");
 			    String TeacherName=request.getParameter("TeacherName");
@@ -92,7 +92,7 @@ public class AddInfoServlet extends HttpServlet {
 			    if (i > 0) {
 			    	session.setAttribute("isError", "0");
 			    	result = "成功插入学生"+StuName+"的数据";
-			    	System.out.println("成功插入学生"+StuName+"的数据");
+			    	//System.out.println("成功插入学生"+StuName+"的数据");
 				} else {
 					session.setAttribute("isError", "1");
 			    	result = "插入学生"+StuName+"的信息失败";
