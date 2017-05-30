@@ -86,7 +86,6 @@ nav header .welcome{
 					<a href="homepage.jsp">导师列表</a>
 					<a href="setting.jsp">个人设置</a>
 				</div>
-				<!-- <div class="welcome">欢迎进入：<%=ot.get("stuname")%>&nbsp;&nbsp;<a href="../login.jsp"><font color="red" size="1">退出</font></a></div> -->
 				<div class="welcome">
 					<div class="status">当前状态：
 					<%if(ot.get("choosedstate").equals("0")){

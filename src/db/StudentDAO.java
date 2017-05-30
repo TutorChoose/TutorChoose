@@ -57,7 +57,8 @@ public class StudentDAO {
 	public Map<String,String> studentInfo(String StuID){
 		DBConnection dbCon=new DBConnection();
 		dbCon.createConnection();
-		String sql="select tb_student.StuID, tb_student.StuName, tb_student.sex, tb_student.grade, tb_student.intro, ClassName,TeacherID, tb_student.tel,choosedState,DeptName,tb_student.DeptID from tb_student join tb_class on tb_student.ClassID = tb_class.ClassID join tb_dept"
+		String sql="select tb_student.StuID, tb_student.StuName, tb_student.sex, tb_student.grade, tb_student.intro, ClassName,TeacherID, tb_student.tel,choosedState,DeptName,tb_student.DeptID "
+				+ "from tb_student join tb_class on tb_student.ClassID = tb_class.ClassID join tb_dept"
 				+ " on tb_student.DeptID = tb_dept.DeptID where StuID = '" + StuID + "'";
 		ArrayList<Map<String,String>> list=dbCon.queryForList(sql);
 		dbCon.close();
