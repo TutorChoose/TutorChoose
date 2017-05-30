@@ -49,7 +49,7 @@ public class LoginCheck extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String userId = request.getParameter("username");
+		String userId = StringEscapeUtils.escapeSql(request.getParameter("username"));
 		String userPwd = StringEscapeUtils.escapeSql(request.getParameter("password"));
 		String role = request.getParameter("role");
 		HttpSession session=request.getSession();	
