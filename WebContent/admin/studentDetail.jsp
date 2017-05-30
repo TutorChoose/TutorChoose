@@ -225,7 +225,7 @@ select {
 								%>
 							</select> 
 							<input type="text" value="<%=stuMsg.getGrade()%>" name="Grade">
-							<input type="text" value="<%=stuMsg.getTel()%>" name="tel">
+							<input type="text" value="<%=stuMsg.getTel()%>" name="tel" id="stuTel">
 							<% 
 							  SelectTeacherDAO selectTeacherDao = new SelectTeacherDAO();
 							  String TeacherID = stuMsg.getTeacherID();
@@ -344,27 +344,34 @@ select {
 	session.removeAttribute("result");
 	session.removeAttribute("isError");%>
 		function saveInfo() {
-		   swal(
-				{
-					title : "确定保存信息吗?",
-					text : "确定后将不可修改!",
-					type : "warning",
-					showCancelButton : true,
-					confirmButtonColor : "#DD6B55",
-					confirmButtonText : "确定",
-					cancelButtonText : "取消",
-					closeOnConfirm : false,
-					closeOnCancel : true
-				},
-			function(isConfirm) {
-				if (isConfirm) { //确定
-					// 提交表单
-					document.getElementById("functionType").value = "updateInfo";
-					document.getElementById("updateInfoForm").submit();
-				} else {
+			//电话号码是否合法
+			var regTel = /^[\d|-]*$/g;
+			var tel = $("#stuTel").val();
+			if(regTel.test(tel)){
+				swal({
+						title : "确定保存信息吗?",
+						text : "确定后将不可修改!",
+						type : "warning",
+						showCancelButton : true,
+						confirmButtonColor : "#DD6B55",
+						confirmButtonText : "确定",
+						cancelButtonText : "取消",
+						closeOnConfirm : false,
+						closeOnCancel : true
+					},
+				function(isConfirm) {
+					if (isConfirm) { //确定
+						// 提交表单
+						document.getElementById("functionType").value = "updateInfo";
+						document.getElementById("updateInfoForm").submit();
+					} else {
 
-				}
-			});
+					}
+				});
+			}else{
+				swal("失败", "不是正确的电话号码", "error");
+				return false;
+			}
 		}
 
 		function resetPassword() {
@@ -419,7 +426,6 @@ select {
 	            $("#ClassID").hide();
 	        }
 	    });
-
 	</script>
 </body>
 </html>

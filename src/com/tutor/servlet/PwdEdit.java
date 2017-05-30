@@ -53,37 +53,37 @@ public class PwdEdit extends HttpServlet {
 		String newPassword = StringEscapeUtils.escapeSql(request.getParameter("newPassword").trim());
 		String reNewpassword = StringEscapeUtils.escapeSql(request.getParameter("reNewPassword").trim());
 		HttpSession session = request.getSession();
-		if(oldPassword!=null && newPassword!=null && reNewpassword!=null) {
-			if(oldPassword.equals("") || newPassword.equals("") || reNewpassword.equals("")) {
-				result = "密码不能为空";
+//		if(oldPassword!=null && newPassword!=null && reNewpassword!=null) {
+//			if(oldPassword.equals("") || newPassword.equals("") || reNewpassword.equals("")) {
+//				result = "密码不能为空";
+//				session.setAttribute("isError", "1");
+//			}
+//			else if(!newPassword.equals(reNewpassword)) {
+//				result = "两次密码输入不一致";
+//				session.setAttribute("isError", "1");
+//			}
+//			else if(newPassword.length()<6) {
+//				result = "密码不能小于6位";
+//				session.setAttribute("isError", "1");
+//			}
+//			else {
+			TeacherDAO teadao = new TeacherDAO();
+			boolean rs = teadao.PwdIsTrue((String)session.getAttribute("teaId"), oldPassword);
+			if(!rs){
+				result = "密码错误";
 				session.setAttribute("isError", "1");
-			}
-			else if(!newPassword.equals(reNewpassword)) {
-				result = "两次密码输入不一致";
-				session.setAttribute("isError", "1");
-			}
-			else if(newPassword.length()<6) {
-				result = "密码不能小于6位";
-				session.setAttribute("isError", "1");
-			}
-			else {
-				TeacherDAO teadao = new TeacherDAO();
-				boolean rs = teadao.PwdIsTrue((String)session.getAttribute("teaId"), oldPassword);
-				if(!rs){
-					result = "密码错误";
-					session.setAttribute("isError", "1");
+			}else{
+				int i = teadao.updatePwd((String)session.getAttribute("teaId"), newPassword);
+				if(i>0){
+					result = "密码修改成功";
+					session.setAttribute("isError", "0");
 				}else{
-					int i = teadao.updatePwd((String)session.getAttribute("teaId"), newPassword);
-					if(i>0){
-						result = "密码修改成功";
-						session.setAttribute("isError", "0");
-					}else{
-						result = "密码修改失败";
-						session.setAttribute("isError", "1");
-					}
+					result = "密码修改失败";
+					session.setAttribute("isError", "1");
 				}
 			}
-		} 
+//			}
+//		} 
 		
 		//提示信息保存到session中
 		session.setAttribute("result", result);
