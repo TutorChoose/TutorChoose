@@ -87,7 +87,7 @@
 	
 	<span class="nav">学生端>>个人信息中心</span>
 	<div class="main">
-		<form action="ChangePwd" method="post" style="width: 100%">
+		<form action="ChangePwd" method="post" style="width: 100%" onsubmit="return infoIsVaild();">
 			<div style="display: flex;flex-direction: row;width: 100%">
 				<div class="panel" style="width: 40%">
 					<table style="width: 100%">
@@ -125,7 +125,7 @@
 							<td>
 								电话号码
 							</td>
-					    	<td><input type="text" placeholder="请填写电话号码" value="<%=ot.get("tel")%>" id="teacherTel" name="studentTel"></td>
+					    	<td><input type="text" placeholder="请填写电话号码" value="<%=ot.get("tel")%>" id="stuTel" name="studentTel"></td>
 						</tr>
 						<tr>
 							<td>
@@ -246,19 +246,47 @@
 	    $('#changePasswordModal').modal('hide');
 	});
 	function checkPwd(){
-		var oldPwd = $('#oldpw').val();
-		var old = <%=(String)s.getAttribute("stuPwd")%>;
-		if(oldPwd != <%=s.getAttribute("stuPwd")%>){
-			alert("旧密码错误！");
+		var regPwd = /^[0-9a-zA-Z]{6,}$/g;
+		var oldpw = $('#oldpw').val();
+		var newpw = $("#newpw").val();
+		var reNewpw = $("#reNewpw").val();
+		if(oldpw==""||newpw==""||newpw==""){
+			swal("失败", "密码不能为空", "error");
+			return false;
+		}else{
+			if(newpw!=reNewpw){
+				swal("失败", "两次密码输入不一致", "error");
+				return false;
+			}else{
+				if(newpw.length<6){
+					swal("失败", "新密码不能小于6位", "error");
+					return false;
+				}else{
+					if(!regPwd.test(newpw)){
+						swal("失败", "新密码只能是字母或者数字", "error");
+						return false;
+					}else{
+						if(oldPwd != <%=s.getAttribute("stuPwd")%>){
+							swal("失败", "密码错误", "error");
+							return false;
+						}else{
+							return true;
+						}
+					}
+				}
+			}
+		}
+	}
+	//个人信息是否合法
+	function infoIsVaild(){
+		var regTel = /^[\d|-]*$/g;
+		var tel = $("#stuTel").val();
+		if(regTel.test(tel)){
+			return true;
+		}else{
+			swal("失败", "不是正确的电话号码", "error");
 			return false;
 		}
-		var newPwd = $('#newpw').val();
-		var reNewPwd = $('#reNewpw').val();
-		if(newPwd == "" || newPwd != reNewPwd){
-			alert("两次输入密码不相同！");
-			return false;
-		}
-		return true;
 	}
 </script>
 </html>

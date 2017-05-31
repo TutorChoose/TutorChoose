@@ -30,7 +30,7 @@
 /* 		request.setAttribute("info", info); */
 	%>
 	
-	<form action="PwdEdit" method="post" class="form-horizontal">
+	<form action="PwdEdit" method="post" class="form-horizontal" onsubmit="return pwdIsValid();">
 		<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog" style="margin-top: 120px">
 		        <div class="modal-content">
@@ -69,7 +69,7 @@
 	
 	<div class="main">
 		<span style="line-height:40px;font-size:10px;align-self: flex-start">导师端>>个人信息中心</span>
-		<form action="InfoEdit" method="post" style="width: 100%" onsubmit="return f();" >
+		<form action="InfoEdit" method="post" style="width: 100%" onsubmit="return infoIsVaild();" >
 			<div style="display: flex;flex-direction: row;width: 100%">
 				<div class="panel" style="width: 40%">
 					<table style="width: 100%">
@@ -215,5 +215,46 @@
 	$(function() {
 	    $('#changePasswordModal').modal('hide');
 	});
+	
+	//个人信息是否合法
+	function infoIsVaild(){
+		var regTel = /^[\d|-]*$/g;
+		var tel = $("#teacherTel").val();
+		if(regTel.test(tel)){
+			return true;
+		}else{
+			swal("失败", "不是正确的电话号码", "error");
+			return false;
+		}
+	}
+	
+	//密码校验是否合法
+	function pwdIsValid(){
+		var regPwd = /^[0-9a-zA-Z]{6,}$/g;
+		var oldpw = $("#oldpw").val();
+		var newpw = $("#newpw").val();
+		var reNewpw = $("#reNewpw").val();
+		if(oldpw==""||newpw==""||newpw==""){
+			swal("失败", "密码不能为空", "error");
+			return false;
+		}else{
+			if(newpw!=reNewpw){
+				swal("失败", "两次密码输入不一致", "error");
+				return false;
+			}else{
+				if(newpw.length<6){
+					swal("失败", "新密码不能小于6位", "error");
+					return false;
+				}else{
+					if(!regPwd.test(newpw)){
+						swal("失败", "新密码只能是字母或者数字", "error");
+						return false;
+					}else{
+						return true;
+					}
+				}
+			}
+		}
+	}
 </script>
 </html>
