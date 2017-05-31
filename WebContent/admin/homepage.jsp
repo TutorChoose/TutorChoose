@@ -11,209 +11,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>管理员</title>
-<link rel="stylesheet" type="text/css"
-	href="../lib/jquery.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="../lib/table.css">
-<link rel="stylesheet" type="text/css" href="../lib/bootstrap.min.css">
-<link rel="stylesheet" href="../lib/sweetalert.css">
-<script type="text/javascript" language="javascript"
-	src="//code.jquery.com/jquery-1.12.4.js">
-</script>
-<script type="text/javascript" language="javascript"
-	src="../lib/sweetalert-dev.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../lib/jquery-tab.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../lib/prefixfree.min.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../lib/jquery.dataTables.min.js">
-</script>
-<script src="../lib/modal.js"></script>
-<style type="text/css">
-body {
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
-	width: 100%;
-}
-
-.main {
-	display: flex;
-	flex-direction: column;
-	width: 90%;
-	margin-left: 2%;
-	padding: 10px;
-}
-
-.main table {
-	width: 98%;
-}
-
-.nav {
-	margin-top: 50px;
-	line-height: 40px;
-	font-size: 10px;
-	align-self: flex-start;
-	margin-left: 2%;
-}
-
-.formTeacher {
-	display: flex;
-	flex-direction: row;
-}
-
-.clearfix:after, .container:after, .tab-nav:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
-}
-
-/* ==========
-		   Setup Page */
-*, *:before, *:after {
-	box-sizing: border-box;
-}
-
-body {
-	font-family: 'Quicksand', sans-serif;
-}
-
-/* =================
-		   Container Styling */
-.container {
-	position: relative;
-	background: white;
-	padding: 3em;
-}
-
-/* ===========
-		   Tab Styling */
-.tab-group {
-	position: relative;
-	border: 1px solid #eee;
-	margin-top: 2.5em;
-	border-radius: 0 0 10px 10px;
-}
-
-.tab-group section {
-	opacity: 0;
-	height: 0;
-	padding: 0 1em;
-	overflow: hidden;
-	transition: opacity 0.4s ease, height 0.4s ease;
-}
-
-.tab-group section.active {
-	opacity: 1;
-	height: auto;
-	overflow: visible;
-}
-
-.tab-nav {
-	list-style: none;
-	margin: -2.5em -1px 0 0;
-	padding: 0;
-	height: 2.5em;
-	overflow: hidden;
-}
-
-.tab-nav li {
-	display: inline;
-}
-
-.tab-nav li a {
-	top: 1px;
-	position: relative;
-	display: block;
-	float: left;
-	border-radius: 10px 10px 0 0;
-	background: #eee;
-	line-height: 2em;
-	padding: 0 1em;
-	text-decoration: none;
-	color: grey;
-	margin-top: .5em;
-	margin-right: 1px;
-	transition: background .2s ease, line-height .2s ease, margin .2s ease;
-}
-
-.tab-nav li.active a {
-	background: #6EB590;
-	color: white;
-	line-height: 2.5em;
-	margin-top: 0;
-}
-
-.nav li {
-	display: inline-block;
-}
-
-input[type="file"] {
-	display: inline-block;
-	width: 134px;
-}
-
-.exportInfo {
-	margin: 20px 0 10px 10px;
-}
-.fileForm {
-	padding:10px;
-	margin:10px 0;
-	border:1px solid #eee;
-	box-shadow:1px 1px 5px #eee;
-}
-.file {
-    position: relative;
-    display: inline-block;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 6px 12px;
-    overflow: hidden;
-    color: #333;
-    text-decoration: none;
-    text-indent: 0;
-    line-height: 20px;
-    margin-bottom: -13px;
-    cursor: pointer;
-}
-.file input {
-    position: absolute;
-    right: 0;
-    top: 0;
-    opacity: 0;
-}
-.file:hover {
-    background: #e6e6e6;
-    border-color: #adadad;
-    color: #333;
-    text-decoration: none;
-}
-.fileName {
-	background-color: transparent;
-    border: 0;
-}
-@media screen and (max-width: 685px) {
-	.fileName {
-		width: 60%;
-	}
-    .importFileBtn {
-        margin-top: 15px;
-    }
-    .exportInfo {
-    	margin-top: 0;
-    }
-}
-</style>
-
 </head>
 <body>
 	<%@ include file="navbar.jsp"%>
-	
+	<%
+	DeptMsDAO deptDao = new DeptMsDAO();
+	ClassMsDAO classDao = new ClassMsDAO();
+	TeacherMsDAO teacherDao = new TeacherMsDAO();
+	StudentMsDAO studentDao = new StudentMsDAO();
+	%>
 	<!-- 添加教师模态框   -->
 	<form action="addInfo" method="post" class="form-horizontal" onsubmit="return checkTeacher()">
 		<div class="modal fade" id="addTeacherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -253,7 +59,6 @@ input[type="file"] {
 						    <div class="col-sm-7">
     							<select name='DeptID' id='DeptID' class='form-control'>
 						  	    <%
-						  	  	DeptMsDAO deptDao = new DeptMsDAO();
 						  		ArrayList<Map<String, String>> deptMsgs = deptDao.queryDeptAll();
 						  	    for (Map<String, String> deptMsg : deptMsgs) { %>
 						  	    	<option value =<%=deptMsg.get("deptid") %>>
@@ -341,7 +146,6 @@ input[type="file"] {
 						    <div class="col-sm-7">
     							<select name='ClassID' id='ClassID' class='form-control'>"+
 						  	    <% 
-						  	  	ClassMsDAO classDao = new ClassMsDAO();
 						  		ArrayList<Map<String, String>> classMsgs = classDao.queryClassAll();
 						  	    for (Map<String, String> classMsg : classMsgs) { %>
 						  	    	<option value =<%=classMsg.get("classid") %>>
@@ -538,7 +342,7 @@ input[type="file"] {
 	
 	<span class="nav">管理员端>>信息中心</span>
 	<div class="main">
-		<%
+	<%
 		if (request.getAttribute("result") != null) { //判断保存在request范围内的对象是否为空
 			out.println("<script >alert('" + request.getAttribute("result")
 					+ "');</script>"); //页面显示提示信息    	
@@ -555,7 +359,7 @@ input[type="file"] {
 							enctype="multipart/form-data"  onsubmit="console.log('1');" class="fileForm pull-left">
 							     导入系信息： 
 								<a href="javascript:;" class="file">选择文件
-								    <input type="file" name="file" id="importDeptFile" onchange="importDeptFileFun()"/>
+								    <input type="file" name="file" id="importDeptFile" onchange="importFileFun(importDeptFile, deptFileName)"/>
 								</a>
 								<input class="fileName" id="deptFileName" value="未选择文件" disabled/>
 								<input type="hidden" name="uploadType" value="dept" id="deptid"/>
@@ -585,7 +389,7 @@ input[type="file"] {
 							enctype="multipart/form-data"  onsubmit="return validate(formClass)" class="fileForm pull-left">
 							     导入班级信息： 
 								<a href="javascript:;" class="file">选择文件
-								    <input type="file" name="file" id="importClassFile" onchange="importClassFileFun()"/>
+								    <input type="file" name="file" id="importClassFile" onchange="importFileFun(importClassFile, classFileName)"/>
 								</a>
 								<input class="fileName" id="classFileName" value="未选择文件" disabled/>
 								<input type="hidden" name="uploadType" value="class"/>
@@ -615,7 +419,7 @@ input[type="file"] {
 							enctype="multipart/form-data" onsubmit="return validate(formTeacher)" class="fileForm pull-left">
 							     导入教师信息：
 								<a href="javascript:;" class="file">选择文件
-								    <input type="file" name="file" id="importTeacherFile" onchange="importTeacherFileFun()"/>
+								    <input type="file" name="file" id="importTeacherFile" onchange="importFileFun(importTeacherFile, teacherFileName)"/>
 								</a>
 								<input class="fileName" id="teacherFileName" value="未选择文件" disabled/>
 								<input type="hidden" name="uploadType" value="teacher"/>
@@ -653,7 +457,7 @@ input[type="file"] {
 							enctype="multipart/form-data" onsubmit="return validate(formStudent)" class="fileForm pull-left">
 							   导入学生信息：
 								<a href="javascript:;" class="file">选择文件
-								    <input type="file" name="file" id="importStudentFile" onchange="importStudentFileFun()"/>
+								    <input type="file" name="file" id="importStudentFile" onchange="importFileFun(importStudentFile, studentFileName)"/>
 								</a>
 								<input class="fileName" id="studentFileName" value="未选择文件" disabled/>
 								<input type="hidden" name="uploadType" value="student"/>
@@ -709,52 +513,17 @@ input[type="file"] {
 	</div>
 </body>
 <script type="text/javascript">
-	function validate(formID) {
-		if (formID.file.value == "") {
-			swal("失败", "请选择要上传的文件", "error");
-			return false;
-		}
-	}
-	function importDeptFileFun() {
-		var fileName = $("#importDeptFile").val();
-		if(fileName==undefined || fileName=="")
-			$("#deptFileName").val("未选择文件");
-		else
-			$("#deptFileName").val(fileName);
-	}
-	function importClassFileFun() {
-		var fileName = $("#importClassFile").val();
-		if(fileName==undefined || fileName=="")
-			$("#classFileName").val("未选择文件");
-		else
-			$("#classFileName").val(fileName);
-	}
-	function importTeacherFileFun() {
-		var fileName = $("#importTeacherFile").val();
-		if(fileName==undefined || fileName=="")
-			$("#teacherFileName").val("未选择文件");
-		else
-			$("#teacherFileName").val(fileName);
-	}
-	function importStudentFileFun() {
-		var fileName = $("#importStudentFile").val();
-		if(fileName==undefined || fileName=="")
-			$("#studentFileName").val("未选择文件");
-		else
-			$("#studentFileName").val(fileName);
-	}
 	var activateTab = function(id) {
-    	// console.log("1");
 	    $(".tab-nav li").filter('.active').removeClass('active');
 	    $("section").filter('.active').removeClass('active');
 	    $(".tab-nav li").has('a[href="' + id + '"]').addClass('active');
 	    $("section").filter(id).addClass('active');
-	  }
+	}
+	
 	$(function(){
 		$('.tab-group').tabify();
 		<%
 		String clickType = (String)session.getAttribute("clickType");
-		// System.out.println("clickType:"+clickType);
 		if(clickType!=null){
 			if(clickType.equals("dept")){
 				out.print("activateTab('#tab1');"); 
@@ -768,26 +537,83 @@ input[type="file"] {
 			session.removeAttribute("clickType");
 		}
 		%>
-		<%
-		String result = (String)session.getAttribute("result");
-		String isError = (String)session.getAttribute("isError");
-		if(result != null) {
-			if(isError.equals("0")) {
-		%>
-				swal("成功", "<%=result%>", "success");
-		<%  } else {%>
-				swal("失败", "<%=result%>", "error");
-		<%	}
-		} 
+	})
+	
+	<%
+	String result = (String)session.getAttribute("result");
+	String isError = (String)session.getAttribute("isError");
+	if(result != null && isError != null) {
+		if(isError.equals("0")) {
+	%>
+			swal("成功", "<%=result%>", "success");
+	<%  } else { %>
+			swal("失败", "<%=result%>", "error");
+	<%	}
 		session.removeAttribute("result");
 		session.removeAttribute("isError");
-		%>
-	})
-	/*获取表格中的数据*/
+	} %>
+	function validate(formID) {
+		if (formID.file.value == "") {
+			swal("失败", "请选择要上传的文件", "error");
+			return false;
+		}
+	}
+
+	// 验证表单信息
+	function importFileFun(fileID, fileNameID) {
+		var fileName = $(fileID).val();
+		if(fileName==undefined || fileName=="")
+			$(fileNameID).val("未选择文件");
+		else
+			$(fileNameID).val(fileName);
+	}
+</script>
+<script type="text/javascript">
+	/*获取从servlet返回的信息，显示成功或失败*/
+	//系
+	var arrayDept = new Array();
+	var m=0;
+	<%   
+	for (Map<String, String> deptMsg : deptMsgs) {
+		String  viewDept = "<a href='deptDetail.jsp?deptid="+deptMsg.get("deptid")+"'>"+deptMsg.get("deptname")+"</a>";
+		String  editDept = "<button class='btn btn-info' data-toggle='modal' data-target='#editDeptModal' onClick=editDept(\'"+deptMsg.get("deptid")+"\',\'"+deptMsg.get("deptname")+"\')>编辑系</button>";
+		//String  deleteDept = "<a class='btn btn-danger' onClick=deleteData(\'"+deptMsg.get("deptid")+"\',\'"+deptMsg.get("deptname")+"\',\'"+"dept"+"\')>删除</a>";
+	%>
+		var n = new Array(4);
+		n[0] = "<%=deptMsg.get("deptid")%>";
+		n[1] = "<%=viewDept%>";
+		n[2] = "<%=editDept%>";
+		<%-- n[3] = "<%=deleteDept%>"; --%>
+		arrayDept[m] = n;
+		m++;
+	<%
+	}
+	%>
+	
+	// 班级
+	var arrayClass = new Array();
+	var m=0;
+	<%   
+	for (Map<String, String> classMsg : classMsgs) {
+		String  viewClass = "<a href='classDetail.jsp?classid="+classMsg.get("classid")+"'>"+classMsg.get("classname")+"</a>";
+		String  editClass = "<button class='btn btn-info' data-toggle='modal' data-target='#editClassModal' onClick=editClass(\'"+classMsg.get("classid")+"\',\'"+classMsg.get("classname")+"\')>编辑班级</button>";
+		//String  deleteClass = "<a class='btn btn-danger' onClick=deleteData(\'"+classMsg.get("classid")+"\',\'"+classMsg.get("classname")+"\',\'"+"class"+"\')>删除</a>";
+	%>
+		var n = new Array(4);
+		n[0] = "<%=classMsg.get("classid")%>";
+		n[1] = "<%=viewClass%>";
+		n[2] = "<%=editClass%>";
+	<%-- 	n[3] = "<%=deleteClass%>"; --%>
+		arrayClass[m] = n;
+		m++;
+	<%
+	}
+	%>
+	
+	//教师
 	var arrayTeacher = new Array();
 	var k=0;
 	<%   
-	TeacherMsDAO teacherDao = new TeacherMsDAO();
 	ArrayList<Map<String, String>> teacherMsgs = teacherDao.queryTeacherList();
 	for (Map<String, String> teacherMsg : teacherMsgs) {
 		String  editTeacher = "<a class='btn btn-info' href='teacherDetail.jsp?teacherid="+teacherMsg.get("teacherid")+"'>查看</a>";
@@ -806,9 +632,7 @@ input[type="file"] {
 		} else{
 			privilege="<span class='label label-info'>否</span>";
 		} 
-		deptDao = new DeptMsDAO();
 		String  DeptName = deptDao.getDeptName(teacherMsg.get("deptid"));
-		deptDao.close();
 		StudentDAO sd = new StudentDAO();
 		int cnt = sd.getNumOfStudentsToTeacher(teacherMsg.get("teacherid"));
 	%>
@@ -826,13 +650,12 @@ input[type="file"] {
 		k++; 
 	<%
 	}
-	teacherDao.close();
 	%>
 	
+	// 学生
 	var arrayStudent = new Array();
 	var m=0;
 	<%   
-	StudentMsDAO studentDao = new StudentMsDAO();
 	ArrayList<Map<String, String>> studentMsgs = studentDao.queryStudentList();
 	for (Map<String, String> studentMsg : studentMsgs) {
 		String  editStudent = "<a class='btn btn-info' href='studentDetail.jsp?stuid="+studentMsg.get("stuid")+"'>查看</a>";
@@ -843,19 +666,12 @@ input[type="file"] {
 		} else if(studentMsg.get("sex").equals("M")){
 			sex="女";
 		}
-		deptDao = new DeptMsDAO();
 		String  DeptName = deptDao.getDeptName(studentMsg.get("deptid"));
-		deptDao.close();
-		
-		classDao = new ClassMsDAO();
 		String  ClassName = classDao.getClassName(studentMsg.get("classid"));
-		deptDao.close();
 		
 		String tutor = "";
 		if(studentMsg.get("teacherid")!=null&&!studentMsg.get("teacherid").equals("")){
-			teacherDao = new TeacherMsDAO();
 			tutor=teacherDao.getTeacherName(studentMsg.get("teacherid"));
-			teacherDao.close();
 		}else {
 			tutor="无";
 		}
@@ -886,13 +702,12 @@ input[type="file"] {
 		m++;
 	<%
 	}
-	studentDao.close();
 	%>
 	
+	// 未选择导师学生
 	var arrayUnSelectedStudent = new Array();
-	var m=0;
+	var m2=0;
 	<%   
-	studentDao = new StudentMsDAO();
 	studentMsgs = studentDao.queryUnSelectStudentList();
 	for (Map<String, String> studentMsg : studentMsgs) {
 		String sex = "";
@@ -901,13 +716,8 @@ input[type="file"] {
 		} else if(studentMsg.get("sex").equals("M")){
 			sex="女";
 		}
-		deptDao = new DeptMsDAO();
 		String  DeptName = deptDao.getDeptName(studentMsg.get("deptid"));
-		deptDao.close();
-		
-		classDao = new ClassMsDAO();
 		String  ClassName = classDao.getClassName(studentMsg.get("classid"));
-		deptDao.close();
 	%>
 		var l = new Array(10);
 		l[0] = "<%=studentMsg.get("stuid")%>";
@@ -917,56 +727,41 @@ input[type="file"] {
 		l[4] = "<%=sex%>";
 		l[5] = "<%=studentMsg.get("grade")%>";
 		l[6] = "<%=studentMsg.get("tel")%>";
-		arrayUnSelectedStudent[m] = l;
-		m++;
+		arrayUnSelectedStudent[m2] = l;
+		m2++;
 	<%
 	}
+	%>
+	<%
+	deptDao.close();
+	classDao.close();
+	teacherDao.close();
 	studentDao.close();
 	%>
 
-
-	
-	var arrayDept = new Array();
-	var m=0;
-	<%   
-	for (Map<String, String> deptMsg : deptMsgs) {
-		String  viewDept = "<a href='deptDetail.jsp?deptid="+deptMsg.get("deptid")+"'>"+deptMsg.get("deptname")+"</a>";
-		String  editDept = "<button class='btn btn-info' data-toggle='modal' data-target='#editDeptModal' onClick=editDept(\'"+deptMsg.get("deptid")+"\',\'"+deptMsg.get("deptname")+"\')>编辑系</button>";
-		//String  deleteDept = "<a class='btn btn-danger' onClick=deleteData(\'"+deptMsg.get("deptid")+"\',\'"+deptMsg.get("deptname")+"\',\'"+"dept"+"\')>删除</a>";
-	%>
-		var n = new Array(4);
-		n[0] = "<%=deptMsg.get("deptid")%>";
-		n[1] = "<%=viewDept%>";
-		n[2] = "<%=editDept%>";
-		<%-- n[3] = "<%=deleteDept%>"; --%>
-		arrayDept[m] = n;
-		m++;
-	<%
-	}
-	deptDao.close();
-	%>
-	
-	var arrayClass = new Array();
-	var m=0;
-	<%   
-	for (Map<String, String> classMsg : classMsgs) {
-		String  viewClass = "<a href='classDetail.jsp?classid="+classMsg.get("classid")+"'>"+classMsg.get("classname")+"</a>";
-		String  editClass = "<button class='btn btn-info' data-toggle='modal' data-target='#editClassModal' onClick=editClass(\'"+classMsg.get("classid")+"\',\'"+classMsg.get("classname")+"\')>编辑班级</button>";
-		//String  deleteClass = "<a class='btn btn-danger' onClick=deleteData(\'"+classMsg.get("classid")+"\',\'"+classMsg.get("classname")+"\',\'"+"class"+"\')>删除</a>";
-	%>
-		var n = new Array(4);
-		n[0] = "<%=classMsg.get("classid")%>";
-		n[1] = "<%=viewClass%>";
-		n[2] = "<%=editClass%>";
-	<%-- 	n[3] = "<%=deleteClass%>"; --%>
-		arrayClass[m] = n;
-		m++;
-	<%
-	}
-	classDao.close();
-	%>
 	/*datatable表格设定*/
 	$(document).ready(function(){
+		function dataTable(id, dataArray){
+			$(id).DataTable({
+				data: dataArray,
+				"oLanguage": { 
+					"sLengthMenu": "每页显示 _MENU_ 条记录", 
+					"sZeroRecords": "抱歉， 没有找到", 
+					"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据", 
+					"sInfoEmpty": "没有数据", 
+					"sInfoFiltered": "(从 _MAX_ 条数据中检索)", 
+					"sSearch": "搜索",
+					"oPaginate": { 
+						"sFirst": "首页", 
+						"sPrevious": "前一页", 
+						"sNext": "后一页", 
+						"sLast": "尾页" 
+					}, 
+				"sZeroRecords": "没有检索到数据",
+				"bStateSave": true 
+				}
+			});
+		}
 		$('#teacher').DataTable({
 			data: arrayTeacher,
 			"oLanguage": { 
@@ -1068,6 +863,8 @@ input[type="file"] {
 		});
 	});
 </script>
+<<<<<<< HEAD
+=======
 
 <script type="text/javascript">
 	$(function() {
@@ -1179,4 +976,5 @@ input[type="file"] {
 	}
 
 </script>
+>>>>>>> 934a15e5a36d0a3ba211627e2f9b695790d51d2f
 </html>
