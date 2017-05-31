@@ -63,6 +63,26 @@ nav header .welcome{
 	font-size: 15px;
 }
 </style>
+<link rel="stylesheet" type="text/css"
+	href="../lib/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="../lib/table.css">
+<link rel="stylesheet" type="text/css" href="../lib/bootstrap.min.css">
+<link rel="stylesheet" href="../lib/sweetalert.css">
+<link rel="stylesheet" href="../lib/adminHomePage.css">
+<script type="text/javascript" language="javascript"
+	src="//code.jquery.com/jquery-1.12.4.js">
+</script>
+<script type="text/javascript" language="javascript"
+	src="../lib/sweetalert-dev.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../lib/jquery-tab.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../lib/prefixfree.min.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../lib/jquery.dataTables.min.js">
+</script>
+<script src="../lib/modal.js"></script>
+<script src="../lib/adminControl.js"></script>
 </head>
 <body>
 <%

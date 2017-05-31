@@ -26,7 +26,7 @@ public class ChangePwd extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//获得学生学号和密码
+		//鑾峰緱瀛︾敓瀛﹀彿鍜屽瘑鐮�
 		request.setCharacterEncoding("utf8");
 		HttpSession session=request.getSession();
 		String stuId = (String)session.getAttribute("stuId");
@@ -35,37 +35,37 @@ public class ChangePwd extends HttpServlet {
 		String stuPwd = request.getParameter("newPassword");
 		int num = so.changeStuPassword(stuId, stuPwd);
 		if(num > 0){
-			//成功修改
+			//鎴愬姛淇敼
 			session.setAttribute("stuPwd", stuPwd);
 			request.setAttribute("stuPwd", stuPwd);
-			session.setAttribute("result", "success");
+			session.setAttribute("result", "修改密码成功");
 			session.setAttribute("isError", "0");
 			response.sendRedirect("setting.jsp");
 //			request.getRequestDispatcher("student/setting.jsp").forward(request, response);  
 		}
 		else{
-			//修改失败,错误提醒
-			session.setAttribute("result", "fail");
+			//淇敼澶辫触,閿欒鎻愰啋
+			session.setAttribute("result", "修改密码失败");
 			session.setAttribute("isError", "1");
 			response.sendRedirect("setting.jsp");
 //			request.getRequestDispatcher("student/setting.jsp").forward(request, response);  			
 		}
 		}
 		else{
-			//修改联系方式和简介
+			//淇敼鑱旂郴鏂瑰紡鍜岀畝浠�
 			String tel = request.getParameter("studentTel");
 			String intro = request.getParameter("studentIntro");
 			intro = new String(intro.getBytes("ISO-8859-1"), "UTF-8");
 			int num = so.updateInfo(stuId, tel, intro);
 			if(num > 0){
-				//修改session内保存的stuinfo
+				//淇敼session鍐呬繚瀛樼殑stuinfo
 				Map<String,String> ot = so.studentInfo(stuId);
 				session.setAttribute("stuInfo",ot);
-				session.setAttribute("result", "success");
+				session.setAttribute("result", "个人信息修改成功");
 				session.setAttribute("isError" , "0");
 				response.sendRedirect("setting.jsp");
 			}else{
-				session.setAttribute("result", "fail");
+				session.setAttribute("result", "个人信息修改失败");
 				session.setAttribute("isError", "1");
 				response.sendRedirect("setting.jsp");
 			}
