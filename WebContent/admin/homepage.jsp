@@ -342,12 +342,6 @@
 	
 	<span class="nav">管理员端>>信息中心</span>
 	<div class="main">
-	<%
-		if (request.getAttribute("result") != null) { //判断保存在request范围内的对象是否为空
-			out.println("<script >alert('" + request.getAttribute("result")
-					+ "');</script>"); //页面显示提示信息    	
-		}
-	%>
 		<div class="htmleaf-container">
 			<div class="container">
 				<div class="tab-group">
@@ -539,6 +533,7 @@
 		%>
 	})
 	
+	/*获取从servlet返回的信息，显示成功或失败*/
 	<%
 	String result = (String)session.getAttribute("result");
 	String isError = (String)session.getAttribute("isError");
@@ -569,7 +564,6 @@
 	}
 </script>
 <script type="text/javascript">
-	/*获取从servlet返回的信息，显示成功或失败*/
 	//系
 	var arrayDept = new Array();
 	var m=0;

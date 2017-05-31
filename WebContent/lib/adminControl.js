@@ -7,13 +7,13 @@ $(function() {
     $('#editClassModal').modal('hide');
 });
 function editClass(classid, classname) {
-	$("#classID").val(classid.toString());
-	$("#className").val(classname.toString());	
+	$("#editClassID").val(classid.toString());
+	$("#editClassName").val(classname.toString());	
 }
 
 function editDept(deptid, deptname) {
-	$("#deptID").val(deptid.toString());
-	$("#deptName").val(deptname.toString());
+	$("#editDeptID").val(deptid.toString());
+	$("#editDeptName").val(deptname.toString());
 }
 	
 // 删除
@@ -47,4 +47,60 @@ function deleteData(id, name, type) {
 	  		
 	  	}
 	});
+}
+
+//form表单提交前验证
+function checkTeacher(){
+	var teacherID = $('#teacherID').val();
+	var teacherName = $('#teacherName').val();
+	var teacherTitle = $('#teacherTitle').val();
+	if(teacherID == "" || teacherName=="" || teacherTitle==""){
+		swal("失败", "教师编号、姓名、职称不能为空", "error");
+		return false;
+	}
+	return true;
+}
+function checkStudent(){
+	var stuID = $('#stuID').val();
+	var stuName = $('#stuName').val();
+	var stuGrade = $('#stuGrade').val();
+	if(stuID == "" || stuName=="" || stuGrade==""){
+		swal("失败", "学生编号、姓名、绩点不能为空", "error");
+		return false;
+	}
+	return true;
+}
+function checkDept(){
+	var deptID = $('#deptID').val();
+	var deptName = $('#deptName').val();
+	if(deptID == "" || deptName==""){
+		swal("失败", "系编号、名称不能为空", "error");
+		return false;
+	}
+	return true;
+}
+function checkClass(){
+	var classID = $('#classID').val();
+	var className = $('#className').val();
+	if(classID == "" || className==""){
+		swal("失败", "班级编号、名称不能为空", "error");
+		return false;
+	}
+	return true;
+}
+function checkEditDept() {
+	var editDeptName = $('#editDeptName').val();
+	if(editDeptName==""){
+		swal("失败", "系名称不能为空", "error");
+		return false;
+	}
+	return true;
+}
+function checkEditClass(){
+	var editClassName = $('#editClassName').val();
+	if(editClassName==""){
+		swal("失败", "班级名称不能为空", "error");
+		return false;
+	}
+	return true;
 }
