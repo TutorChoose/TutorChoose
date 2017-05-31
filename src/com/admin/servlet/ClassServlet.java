@@ -17,7 +17,7 @@ import net.sf.json.JSONArray;
 /**
  * Servlet implementation class ClassServlet
  */
-@WebServlet("/ClassServlet")
+
 public class ClassServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

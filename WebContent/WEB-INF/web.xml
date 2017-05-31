@@ -57,6 +57,7 @@
     <servlet-name>ClassServlet</servlet-name>
     <url-pattern>/admin/class</url-pattern>
   </servlet-mapping>
+  <!-- 过滤器配置 -->
   <filter>
     <filter-name>LogFilter</filter-name>
     <filter-class>com.bean.LoginFilter</filter-class>

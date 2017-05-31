@@ -57,11 +57,12 @@ public class StudentDAO {
 	public Map<String,String> studentInfo(String StuID){
 		DBConnection dbCon=new DBConnection();
 		dbCon.createConnection();
-		String sql="select tb_student.StuID, tb_student.StuName, tb_student.sex, tb_student.grade, tb_student.intro, ClassName,TeacherID, tb_student.tel,choosedState,DeptName,tb_student.DeptID from tb_student join tb_class on tb_student.ClassID = tb_class.ClassID join tb_dept"
+		String sql="select tb_student.StuID, tb_student.StuName, tb_student.sex, tb_student.grade, tb_student.intro, ClassName,TeacherID, tb_student.tel,choosedState,DeptName,tb_student.DeptID "
+				+ "from tb_student join tb_class on tb_student.ClassID = tb_class.ClassID join tb_dept"
 				+ " on tb_student.DeptID = tb_dept.DeptID where StuID = '" + StuID + "'";
 		ArrayList<Map<String,String>> list=dbCon.queryForList(sql);
 		dbCon.close();
-		if(list != null){
+		if(list != null && list.size() > 0){
 			Map<String,String> myInfo = (Map<String,String>)list.get(0);
 			return myInfo;
 		}
@@ -95,7 +96,7 @@ public class StudentDAO {
 		String sql="select * from tb_teacher join tb_dept on tb_teacher.DeptID = tb_dept.DeptID where TeacherID = '" + teacherID + "'";
 		ArrayList<Map<String,String>> list=dbCon.queryForList(sql);
 		dbCon.close();
-		if(list != null){
+		if(list != null && list.size() > 0){
 			Map<String,String> oneTeacher = (Map<String,String>)list.get(0);
 			return oneTeacher;
 		}
@@ -108,7 +109,7 @@ public class StudentDAO {
 		String sql="select * from tb_teacher where TeacherID = '" + teacherID + "'";
 		ArrayList<Map<String,String>> list=dbCon.queryForList(sql);
 		dbCon.close();
-		if(list != null)
+		if(list != null && list.size() > 0)
 			return list.get(0).get("teachername");
 		else return null;
 	}
@@ -119,7 +120,7 @@ public class StudentDAO {
 		String sql="select * from tb_selectteacher where StuID = '"+StuID+"' and choosedState = 0";
 		ArrayList<Map<String,String>> list=dbCon.queryForList(sql);
 		dbCon.close();
-		if(list != null)
+		if(list != null && list.size() > 0)
 			return list.get(0).get("teacherid");
 		else return null;
 	}
@@ -154,18 +155,22 @@ public class StudentDAO {
 	public int getSystemPrivilege(){
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
+		int pri = 0;
 		String sql = "select PrivilegeModel from tb_admin";
 		ArrayList<Map<String, String>> systemPri = dbc.queryForList(sql);
-		int pri = Integer.parseInt(systemPri.get(0).get("privilegemodel"));
+		if(systemPri != null && systemPri.size() > 0)
+			pri = Integer.parseInt(systemPri.get(0).get("privilegemodel"));
 		return pri;
 	}
 	//get the system rule
 	public int getSystemRule(){
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
+		int rule = 0;
 		String sql = "select Privilege from tb_teacher where Privilege <> 1 limit 1 ";
 		ArrayList<Map<String, String>> systemRule = dbc.queryForList(sql);
-		int rule = Integer.parseInt(systemRule.get(0).get("privilege"));
+		if(systemRule != null && systemRule.size() > 0)
+			rule = Integer.parseInt(systemRule.get(0).get("privilege"));
 		return rule;
 	}
 	//get the number of students who choosed the teacher 
@@ -175,7 +180,7 @@ public class StudentDAO {
 		int cnt = 0;
 		String sql = "select count(TeacherID) as cnt from tb_selectteacher where TeacherID = '"+TeacherID+"' and (choosedState = 0 or choosedState = 2)";
 		ArrayList<Map<String,String>> list=dbCon.queryForList(sql);
-		if(list != null){
+		if(list != null && list.size() > 0){
 			cnt = Integer.parseInt(list.get(0).get("cnt"));
 			// System.out.println("now studengcount:"+cnt);
 		}
@@ -210,11 +215,13 @@ public class StudentDAO {
 		String sql="select * from tb_teacher where DeptID = '"+dept+"'";
 		int stuCnt = 0, selRec = 0;
 		ArrayList<Map<String,String>> list=dbCon.queryForList(sql);
+		if(list != null && list.size() > 0){
 		for (Map<String, String> map : list) {
 			sql = "select count(*) as cnt, studentCount from tb_selectteacher join tb_teacher on tb_selectteacher.TeacherID = tb_teacher.TeacherID where tb_selectteacher.TeacherID = '"+map.get("teacherid")+"' and (choosedState = 0 or choosedState = 2)";
 			ArrayList<Map<String,String>> l=dbCon.queryForList(sql);
 			stuCnt += Integer.parseInt(l.get(0).get("studentcount"));
 			selRec += Integer.parseInt(l.get(0).get("cnt"));
+		}
 		}
 		dbCon.close();
 		//stuCnt is max student count, then the students can choose other teachers
@@ -224,7 +231,7 @@ public class StudentDAO {
 		else return 1;
 	}
 	//parameters: student id, teacher id, student's grade, teacher's privilege
-	public synchronized int chooseTeacher(String StuID, String TeacherID, int Grade, int Privilege){
+	public synchronized int chooseTeacher(String StuID, String TeacherID, float Grade, int Privilege){
 		int rule = 0;
 		String sql = null;
 		int i = 0;
@@ -273,8 +280,9 @@ public class StudentDAO {
 			else{
 				sql = "select StuID, Grade from tb_selectteacher where TeacherID = '"+TeacherID+"' and choosedState = 0 order by Grade, SelectDate desc";
 				ArrayList<Map<String,String>> l=dbCon.queryForList(sql);
-				if(l != null){
-					int grade = Integer.parseInt(l.get(0).get("grade"));
+//				System.out.println(l);
+				if(l != null && l.size() > 0){
+					float grade = Float.parseFloat(l.get(0).get("grade"));
 					System.out.println("grade"+grade);
 					//if my grade is higher than the last one
 					if(Grade > grade){

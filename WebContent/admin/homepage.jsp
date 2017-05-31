@@ -21,7 +21,7 @@
 	StudentMsDAO studentDao = new StudentMsDAO();
 	%>
 	<!-- 添加教师模态框   -->
-	<form action="addInfo" method="post" class="form-horizontal">
+	<form action="addInfo" method="post" class="form-horizontal" onsubmit="return checkTeacher()">
 		<div class="modal fade" id="addTeacherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog">
 		        <div class="modal-content">
@@ -34,13 +34,13 @@
 			            <div class="form-group">
 						    <label class="col-sm-4 control-label">教师编号：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写教师编号' name='TeacherID'/>
+    							<input type='text' class="form-control" placeholder='请填写教师编号' name='TeacherID' id='teacherID'/>
     						</div>
 						</div>
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">教师姓名：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写姓名' name='TeacherName'/>
+    							<input type='text' class="form-control" placeholder='请填写姓名' name='TeacherName' id='teacherName'/>
     						</div>
 						</div>
 						<div class="form-group">
@@ -70,19 +70,19 @@
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">职称：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写职称' name='Title'/>
+    							<input type='text' class="form-control" placeholder='请填写职称' name='Title' id='teacherTitle'/>
     						</div>
 						</div>
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">电话号码：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写电话号码' name='tel'/>
+    							<input type='text' class="form-control" placeholder='请填写电话号码' name='tel' id='teacherTel'/>
     						</div>
 						</div>
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">自我介绍：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写自我介绍' name='Title'/>
+    							<input type='text' class="form-control" placeholder='请填写自我介绍' name='Intro' id='teacherIntro'/>
     						</div>
 						</div>
 		            </div>
@@ -96,7 +96,7 @@
 	</form>
 	
 	<!-- 添加学生模态框   -->		  		
-	<form action="addInfo" method="post" class="form-horizontal">
+	<form action="addInfo" method="post" class="form-horizontal" onsubmit="return checkStudent()">
 		<div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog">
 		        <div class="modal-content">
@@ -109,13 +109,13 @@
 			            <div class="form-group">
 						    <label class="col-sm-4 control-label">学生学号：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写学生学号' name='StuID'/>
+    							<input type='text' class="form-control" placeholder='请填写学生学号' name='StuID' id="stuID"/>
     						</div>
 						</div>
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">学生姓名：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写学生姓名' name='StuName'/>
+    							<input type='text' class="form-control" placeholder='请填写学生姓名' name='StuName' id="stuName"/>
     						</div>
 						</div>
 						<div class="form-group">
@@ -157,19 +157,19 @@
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">绩点：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写绩点' name='Grade'/>
+    							<input type='number' class="form-control" placeholder='请填写绩点' name='Grade' id="stuGrade" min='0'/>
     						</div>
 						</div>
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">电话号码：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写电话号码' name='tel'/>
+    							<input type='text' class="form-control" placeholder='请填写电话号码' name='tel' id="stuTel"/>
     						</div>
 						</div>
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">自我介绍：</label>
 						    <div class="col-sm-7">
-    							<input name='Intro' class="form-control" rows='3' cols='20'/>
+    							<input name='Intro' class="form-control" rows='3' cols='20' id="stuIntro"/>
     						</div>
 						</div>
 		            </div>
@@ -183,7 +183,7 @@
 	</form>
 	
 	<!-- 添加系模态框   -->
-	<form action="addInfo" method="post" class="form-horizontal">
+	<form action="addInfo" method="post" class="form-horizontal" onsubmit="return checkDept()">
 		<div class="modal fade" id="addDeptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog" style="margin-top: 120px">
 		        <div class="modal-content">
@@ -196,13 +196,13 @@
 			            <div class="form-group">
 						    <label class="col-sm-4 control-label">系编号：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写系编号' name='DeptID'/>
+    							<input type='text' class="form-control" placeholder='请填写系编号' name='DeptID' id="deptID"/>
     						</div>
 						</div>
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">系名：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写系名'  name='DeptName'/>
+    							<input type='text' class="form-control" placeholder='请填写系名'  name='DeptName' id="deptName"/>
     						</div>
 						</div>
 		            </div>
@@ -216,7 +216,7 @@
 	</form>
 	
 	<!-- 添加班级模态框   -->
-	<form action="addInfo" method="post" class="form-horizontal">
+	<form action="addInfo" method="post" class="form-horizontal" onsubmit="return checkClass()">
 		<div class="modal fade" id="addClassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog" style="margin-top: 120px">
 		        <div class="modal-content">
@@ -229,7 +229,7 @@
 			            <div class="form-group">
 						    <label class="col-sm-4 control-label">班级编号：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写班级编号' name='ClassID'/>
+    							<input type='text' class="form-control" placeholder='请填写班级编号' name='ClassID' id="classID"/>
     						</div>
 						</div>
 						<div class="form-group">
@@ -247,7 +247,7 @@
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">班级名：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" placeholder='请填写班级名' name='ClassName'/>
+    							<input type='text' class="form-control" placeholder='请填写班级名' name='ClassName' id="className"/>
     						</div>
 						</div>
 		            </div>
@@ -261,7 +261,7 @@
 	</form>
 	
 	<!-- 编辑系模态框   -->
-	<form action="updateInfo" method="post" class="form-horizontal">
+	<form action="updateInfo" method="post" class="form-horizontal" onsubmit="return checkEditDept()">
 		<div class="modal fade" id="editDeptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog" style="margin-top: 120px">
 		        <div class="modal-content">
@@ -275,13 +275,13 @@
 			            <div class="form-group">
 						    <label class="col-sm-4 control-label">系编号：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" id="deptID" placeholder='请填写系编号' name='DeptID' readonly/>
+    							<input type='text' class="form-control" id="editDeptID" placeholder='请填写系编号' name='DeptID' readonly/>
     						</div>
 						</div>
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">系名：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" id="deptName" placeholder='请填写系名'  name='DeptName'/>
+    							<input type='text' class="form-control" id="editDeptName" placeholder='请填写系名'  name='DeptName'/>
     						</div>
 						</div>
 		            </div>
@@ -295,7 +295,7 @@
 	</form>
 	
 	<!-- 编辑班级模态框   -->
-	<form action="updateInfo" method="post" class="form-horizontal">
+	<form action="updateInfo" method="post" class="form-horizontal"onsubmit="return checkEditClass()">
 		<div class="modal fade" id="editClassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog" style="margin-top: 120px">
 		        <div class="modal-content">
@@ -309,7 +309,7 @@
 			            <div class="form-group">
 						    <label class="col-sm-4 control-label">班级编号：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" id="classID" placeholder='请填写班级编号' name='ClassID' readonly/>
+    							<input type='text' class="form-control" id="editClassID" placeholder='请填写班级编号' name='ClassID' readonly/>
     						</div>
 						</div>
 						<div class="form-group">
@@ -327,7 +327,7 @@
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">班级名：</label>
 						    <div class="col-sm-7">
-    							<input type='text' class="form-control" id="className" placeholder='请填写班级名' name='ClassName'/>
+    							<input type='text' class="form-control" id="editClassName" placeholder='请填写班级名' name='ClassName'/>
     						</div>
 						</div>
 		            </div>
@@ -863,4 +863,118 @@
 		});
 	});
 </script>
+<<<<<<< HEAD
+=======
+
+<script type="text/javascript">
+	$(function() {
+	    $('#addTeacherModal').modal('hide');
+	    $('#addStudentModal').modal('hide');
+	    $('#addDeptModal').modal('hide');
+	    $('#addClassModal').modal('hide');
+	    $('#editDeptModal').modal('hide');
+	    $('#editClassModal').modal('hide');
+	});
+	function editClass(classid, classname) {
+		$("#editClassID").val(classid.toString());
+		$("#editClassName").val(classname.toString());
+		
+	}
+
+	function editDept(deptid, deptname) {
+		$("#editDeptID").val(deptid.toString());
+		$("#editDeptName").val(deptname.toString());
+	}
+	
+	// 删除
+	function deleteData(id, name, type) {
+    	swal({
+		 	title: "确定删除的"+name+"的数据吗？",
+		  	text: "",
+		  	type: "warning",
+		  	showCancelButton: true,
+		  	confirmButtonColor: "#DD6B55",
+		  	confirmButtonText: "确定",
+		  	cancelButtonText: "取消",
+		  	closeOnConfirm: false,
+		  	closeOnCancel: true
+		},
+		function(isConfirm){
+		  	if (isConfirm) { //确定
+		  		if(type=="class") {
+		  			window.location.href="deleteInfo.jsp?dataType=class&id="+id;
+		  		}
+		  		else if(type=="dept") {
+		  			window.location.href="deleteInfo.jsp?dataType=dept&id="+id;
+		  		}
+		  		else if(type=="teacher") {
+		  			window.location.href="deleteInfo.jsp?dataType=teacher&id="+id;
+		  		}
+		  		else if(type=="student") {
+		  			window.location.href="deleteInfo.jsp?dataType=student&id="+id;
+		  		}
+		  	} else { //取消
+		  		
+		  	}
+		});
+	}
+	
+	//form表单提交前验证
+	function checkTeacher(){
+		var teacherID = $('#teacherID').val();
+		var teacherName = $('#teacherName').val();
+		var teacherTitle = $('#teacherTitle').val();
+		if(teacherID == "" || teacherName=="" || teacherTitle==""){
+			swal("失败", "教师编号、姓名、职称不能为空", "error");
+			return false;
+		}
+		return true;
+	}
+	function checkStudent(){
+		var stuID = $('#stuID').val();
+		var stuName = $('#stuName').val();
+		var stuGrade = $('#stuGrade').val();
+		if(stuID == "" || stuName=="" || stuGrade==""){
+			swal("失败", "学生编号、姓名、绩点不能为空", "error");
+			return false;
+		}
+		return true;
+	}
+	function checkDept(){
+		var deptID = $('#deptID').val();
+		var deptName = $('#deptName').val();
+		if(deptID == "" || deptName==""){
+			swal("失败", "系编号、名称不能为空", "error");
+			return false;
+		}
+		return true;
+	}
+	function checkClass(){
+		var classID = $('#classID').val();
+		var className = $('#className').val();
+		if(classID == "" || className==""){
+			swal("失败", "班级编号、名称不能为空", "error");
+			return false;
+		}
+		return true;
+	}
+	function checkEditDept() {
+		var editDeptName = $('#editDeptName').val();
+		if(editDeptName==""){
+			swal("失败", "系名称不能为空", "error");
+			return false;
+		}
+		return true;
+	}
+	function checkEditClass(){
+		var editClassName = $('#editClassName').val();
+		if(editClassName==""){
+			swal("失败", "班级名称不能为空", "error");
+			return false;
+		}
+		return true;
+	}
+
+</script>
+>>>>>>> 934a15e5a36d0a3ba211627e2f9b695790d51d2f
 </html>

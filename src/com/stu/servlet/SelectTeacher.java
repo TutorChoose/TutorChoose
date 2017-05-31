@@ -48,7 +48,7 @@ public class SelectTeacher extends HttpServlet {
 		
 		String stuId = (String) session.getAttribute("stuId");
 		Map<String,String> ot = (Map<String,String>)session.getAttribute("stuInfo");
-		int grade = Integer.parseInt(ot.get("grade"));
+		float grade = Float.parseFloat(ot.get("grade"));
 		//get the privilege of teacher
 		int privilege = 0;
 		ArrayList<Map<String,String>> teacherlist = so.teacherList(stuId);
