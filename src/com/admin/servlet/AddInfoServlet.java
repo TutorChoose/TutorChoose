@@ -104,12 +104,15 @@ public class AddInfoServlet extends HttpServlet {
 				DeptMsDAO deptDao = new DeptMsDAO();
 			    DeptID=request.getParameter("DeptID");
 			    String deptName=request.getParameter("DeptName");
+			    System.out.println(DeptID);
+			    System.out.println(deptDao.findOneDept(DeptID));
 				// 插入到数据库
+			    System.out.println(DeptID);
+			    System.out.println(deptDao.findOneDept(DeptID));
 			    if(deptDao.findOneDept(DeptID)!=null){
 			    	session.setAttribute("isError", "1");
 			    	result = "系编号为"+DeptID+"的数据已存在";
-			    }
-			    else {
+			    } else if(deptDao.findOneDept(DeptID)==null){
 			    	i = deptDao.addDept(DeptID,deptName);
 				    if (i > 0) {
 				    	session.setAttribute("isError", "0");
@@ -119,8 +122,8 @@ public class AddInfoServlet extends HttpServlet {
 				    	result = "插入系"+deptName+"的信息失败";
 					}
 			    }
-				    session.setAttribute("result", result);
-				    response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
+			    session.setAttribute("result", result);
+			    response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
 			    deptDao.close();
 				break;
 			case "class":
