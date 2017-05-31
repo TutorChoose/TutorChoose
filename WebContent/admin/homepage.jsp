@@ -353,7 +353,7 @@ input[type="file"] {
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">绩点：</label>
 						    <div class="col-sm-7">
-    							<input type='number' class="form-control" placeholder='请填写绩点' name='Grade' id="stuGrade" min='0'/>
+    							<input type='number' class="form-control" placeholder='请填写绩点' name='Grade' id="stuGrade" min='0' max='5'/>
     						</div>
 						</div>
 						<div class="form-group">
