@@ -30,7 +30,6 @@ CREATE TABLE TB_Admin
 
 /* 老师 */
 CREATE TABLE TB_Teacher                  
-<<<<<<< HEAD
 ( TeacherID VARCHAR(16) PRIMARY KEY,   --老师编号 , 主键                    
   TeacherName VARCHAR(30) NOT NULL,   --老师姓名
   TPassword VARCHAR(16) DEFAULT '123456',   --老师密码
@@ -41,18 +40,6 @@ CREATE TABLE TB_Teacher
   Privilege INTEGER NOT NULL DEFAULT 3  , -- 选择规则，3-先到先得，4-按照绩点， 1-表示反选导师， 默认是3，先到先得
   tel VARCHAR(13), --电话
   Intro TEXT --自我介绍
-=======
-( TeacherID VARCHAR(16) PRIMARY KEY,                                             
-  TeacherName VARCHAR(30) NOT NULL,   
-  TPassword VARCHAR(16) NOT NULL DEFAULT '123456',  
-  DeptID VARCHAR(2) NOT NULL REFERENCES TB_Dept(DeptID),
-  Sex VARCHAR(1) NOT NULL DEFAULT 'M',  
-  Title VARCHAR(10) NOT NULL  DEFAULT '副教授',
-  studentCount INTEGER NOT NULL DEFAULT 5 , 
-  Privilege INTEGER NOT NULL DEFAULT 3  ,
-  tel VARCHAR(13),
-  Intro TEXT
->>>>>>> 934a15e5a36d0a3ba211627e2f9b695790d51d2f
 );
 /* 限选人数*/
 /* 特权 0-表示开启反选模式，
@@ -61,7 +48,6 @@ CREATE TABLE TB_Teacher
  */
 /* 学生 */
 CREATE TABLE TB_Student                  
-<<<<<<< HEAD
 ( StuID VARCHAR(16) PRIMARY KEY,  --学生编号                                           
   StuName VARCHAR(30) NOT NULL,  --学生姓名            
   DeptID VARCHAR(10) NOT NULL REFERENCES TB_Dept(DeptID), --系编号，外键
@@ -74,20 +60,6 @@ CREATE TABLE TB_Student
   TeacherID VARCHAR(16) DEFAULT null, --教师姓名
   choosedState INTEGER DEFAULT 0, --选择状态
   SelectDate DATETIME DEFAULT NOW() --选择日期
-=======
-( StuID VARCHAR(16) PRIMARY KEY,                                             
-  StuName VARCHAR(30) NOT NULL,                         
-  DeptID VARCHAR(10) NOT NULL REFERENCES TB_Dept(DeptID),
-  ClassID VARCHAR(6) NOT NULL REFERENCES TB_Class(ClassID),
-  Sex VARCHAR(1) NOT NULL DEFAULT 'M',
-  SPassword VARCHAR(16) NOT NULL DEFAULT '123456',
-  Grade Double NOT NULL,
-  tel VARCHAR(13),
-  Intro TEXT,
-  TeacherID VARCHAR(16) DEFAULT null,
-  choosedState INTEGER DEFAULT 0, 
-  SelectDate DATETIME DEFAULT NOW()
->>>>>>> 934a15e5a36d0a3ba211627e2f9b695790d51d2f
 );     
 /* 未选择0 | 待定1 | 淘汰2 | 成功3*/
 
