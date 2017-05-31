@@ -104,6 +104,8 @@ public class AddInfoServlet extends HttpServlet {
 				DeptMsDAO deptDao = new DeptMsDAO();
 			    DeptID=request.getParameter("DeptID");
 			    String deptName=request.getParameter("DeptName");
+			    System.out.println(DeptID);
+			    System.out.println(deptDao.findOneDept(DeptID));
 				// 插入到数据库
 			    System.out.println(DeptID);
 			    System.out.println(deptDao.findOneDept(DeptID));
