@@ -295,7 +295,7 @@
 	</form>
 	
 	<!-- 编辑班级模态框   -->
-	<form action="updateInfo" method="post" class="form-horizontal"onsubmit="return checkEditClass()">
+	<form action="updateInfo" method="post" class="form-horizontal" onsubmit="return checkEditClass()">
 		<div class="modal fade" id="editClassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog" style="margin-top: 120px">
 		        <div class="modal-content">
