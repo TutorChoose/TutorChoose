@@ -28,7 +28,7 @@
 					    <input name="functionType" type="hidden" id="functionType" value="setStudentCount" />
 						<p>设置导师可带学生数量</p>
 						<p>
-							<input type="number" value=<%=teacherDao.getStudentCount() %> class="form-control" style="width: 50%;float: left" name="StudentCount">
+							<input type="number" value=<%=teacherDao.getStudentCount() %> class="form-control" style="width: 50%;float: left" name="StudentCount" id="stuCount" min="0">
 							<button type="button" class="btn btn-success" style="float: left;margin-left: 20px" onClick="changeStuNum()">确定</button>
 							<div style="clear: both"></div>
 						</p>
@@ -313,25 +313,34 @@
 		});
 	});
     function changeStuNum() {
-    	swal({
-		 	title: "确定修改导师可带学生数量吗？",
-		  	text: "",
-		  	type: "warning",
-		  	showCancelButton: true,
-		  	confirmButtonColor: "#DD6B55",
-		  	confirmButtonText: "确定",
-		  	cancelButtonText: "取消",
-		  	closeOnConfirm: false,
-		  	closeOnCancel: true
-		},
-		function(isConfirm){
-		  	if (isConfirm) { //确定
-		  		// 提交表单
-		  		document.getElementById("setStudentForm").submit();
-		  	} else { //取消
-		  		
-		  	}
-		});
+    	var stuCount = $("#stuCount").val();
+    	if(stuCount == "") {
+    		swal("失败", "学生数量不能为空", "error");
+    	}
+    	else if(parseInt(stuCount)<=0 || parseInt(stuCount, 10) != stuCount) {
+    		swal("失败", "学生数量必须为正整数", "error");
+    	}
+    	else {
+	    	swal({
+			 	title: "确定修改导师可带学生数量吗？",
+			  	text: "",
+			  	type: "warning",
+			  	showCancelButton: true,
+			  	confirmButtonColor: "#DD6B55",
+			  	confirmButtonText: "确定",
+			  	cancelButtonText: "取消",
+			  	closeOnConfirm: false,
+			  	closeOnCancel: true
+			},
+			function(isConfirm){
+			  	if (isConfirm) { //确定
+		    		// 提交表单
+			  		document.getElementById("setStudentForm").submit();
+			  	} else { //取消
+			  		
+			  	}
+			});
+    	}
 	}
     function changeRule() {
     	swal({

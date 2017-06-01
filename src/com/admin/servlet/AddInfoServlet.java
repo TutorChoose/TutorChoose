@@ -61,16 +61,21 @@ public class AddInfoServlet extends HttpServlet {
 			    String DeptID=request.getParameter("DeptID");
 		        String tel=request.getParameter("tel");
 		        String Intro=request.getParameter("Intro");
-		        // 插入到数据库
-		        int i = teacherDao.addTeacher(TeacherID,TeacherName,DeptID,Sex,Title,tel,Intro);
+		        if(teacherDao.findByTeacherID(TeacherID)!=null){
+			    	session.setAttribute("isError", "1");
+			    	result = "教师工号为"+TeacherID+"的数据已存在";
+			    } else {
+			        // 插入到数据库
+			        int i = teacherDao.addTeacher(TeacherID,TeacherName,DeptID,Sex,Title,tel,Intro);
+				    if (i > 0) {
+				    	session.setAttribute("isError", "0");
+				    	result = "成功修改教师"+TeacherName+"的信息";
+					} else {
+						session.setAttribute("isError", "1");
+				    	result = "修改教师"+TeacherName+"的信息失败";
+					}
+			    }
 		        teacherDao.close();
-			    if (i > 0) {
-			    	session.setAttribute("isError", "0");
-			    	result = "成功修改教师"+TeacherName+"的信息";
-				} else {
-					session.setAttribute("isError", "1");
-			    	result = "修改教师"+TeacherName+"的信息失败";
-				}
 			    session.setAttribute("result", result);
 			    response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
 				break;
@@ -85,18 +90,23 @@ public class AddInfoServlet extends HttpServlet {
 		        float Grade=Float.parseFloat(request.getParameter("Grade"));
 		        tel=request.getParameter("tel");
 		        Intro=request.getParameter("Intro");
-		        // 插入到数据库
-		        i = stuDao.addStudent(StuID,StuName,DeptID,ClassID,Sex,Grade,tel,Intro);
+		        if(stuDao.findOneStudent(StuID)!=null){
+			    	session.setAttribute("isError", "1");
+			    	result = "学生学号为"+StuID+"的数据已存在";
+			    } else {
+			        // 插入到数据库
+			        i = stuDao.addStudent(StuID,StuName,DeptID,ClassID,Sex,Grade,tel,Intro);
+				    if (i > 0) {
+				    	session.setAttribute("isError", "0");
+				    	result = "成功插入学生"+StuName+"的数据";
+				    	//System.out.println("成功插入学生"+StuName+"的数据");
+					} else {
+						session.setAttribute("isError", "1");
+				    	result = "插入学生"+StuName+"的信息失败";
+					}
+			    }
 		        classDao.close();
 		        stuDao.close();
-			    if (i > 0) {
-			    	session.setAttribute("isError", "0");
-			    	result = "成功插入学生"+StuName+"的数据";
-			    	//System.out.println("成功插入学生"+StuName+"的数据");
-				} else {
-					session.setAttribute("isError", "1");
-			    	result = "插入学生"+StuName+"的信息失败";
-				}
 			    session.setAttribute("result", result);
 			    response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
 				break;
@@ -104,15 +114,11 @@ public class AddInfoServlet extends HttpServlet {
 				DeptMsDAO deptDao = new DeptMsDAO();
 			    DeptID=request.getParameter("DeptID");
 			    String deptName=request.getParameter("DeptName");
-			    System.out.println(DeptID);
-			    System.out.println(deptDao.findOneDept(DeptID));
-				// 插入到数据库
-			    System.out.println(DeptID);
-			    System.out.println(deptDao.findOneDept(DeptID));
 			    if(deptDao.findOneDept(DeptID)!=null){
 			    	session.setAttribute("isError", "1");
 			    	result = "系编号为"+DeptID+"的数据已存在";
-			    } else if(deptDao.findOneDept(DeptID)==null){
+			    } else {
+			    	// 插入到数据库
 			    	i = deptDao.addDept(DeptID,deptName);
 				    if (i > 0) {
 				    	session.setAttribute("isError", "0");
@@ -122,25 +128,30 @@ public class AddInfoServlet extends HttpServlet {
 				    	result = "插入系"+deptName+"的信息失败";
 					}
 			    }
+			    deptDao.close();
 			    session.setAttribute("result", result);
 			    response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
-			    deptDao.close();
 				break;
 			case "class":
 				classDao = new ClassMsDAO();
 			    ClassID=request.getParameter("ClassID");
 			    String className=request.getParameter("ClassName");
 			    DeptID=request.getParameter("DeptID");
-				// 插入到数据库
-		        i = classDao.addClass(ClassID, className, DeptID);
-		        classDao.close();
-			    if (i > 0) {
-			    	session.setAttribute("isError", "0");
-			    	result = "成功插入班级"+className+"的数据";
-				} else {
-					session.setAttribute("isError", "1");
-			    	result = "插入班级"+className+"的信息失败";
-				}
+			    if(classDao.findOneClass(ClassID)!=null){
+			    	session.setAttribute("isError", "1");
+			    	result = "班级编号为"+ClassID+"的数据已存在";
+			    } else {
+					// 插入到数据库
+			        i = classDao.addClass(ClassID, className, DeptID);
+				    if (i > 0) {
+				    	session.setAttribute("isError", "0");
+				    	result = "成功插入班级"+className+"的数据";
+					} else {
+						session.setAttribute("isError", "1");
+				    	result = "插入班级"+className+"的信息失败";
+					}
+			    }
+			    classDao.close();
 			    session.setAttribute("result", result);
 			    response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
 				break;
@@ -150,16 +161,21 @@ public class AddInfoServlet extends HttpServlet {
 			    String adminName=request.getParameter("AdminName");
 			    String aPassword=request.getParameter("APassword");
 			    tel=request.getParameter("tel");
-				// 插入到数据库
-		        i = adminDao.addAdmin(adminID, adminName, aPassword,tel);
-		        adminDao.close();
-			    if (i > 0) {
-			    	session.setAttribute("isError", "0");
-			    	result = "成功插入管理员"+adminName+"的数据";
-				} else {
-					session.setAttribute("isError", "1");
-			    	result = "插入管理员"+adminName+"的信息失败";
-				}
+			    if(adminDao.findOneAdmin(adminID)!=null){
+			    	session.setAttribute("isError", "1");
+			    	result = "管理员编号为"+adminID+"的数据已存在";
+			    } else {
+					// 插入到数据库
+			        i = adminDao.addAdmin(adminID, adminName, aPassword,tel);
+				    if (i > 0) {
+				    	session.setAttribute("isError", "0");
+				    	result = "成功插入管理员"+adminName+"的数据";
+					} else {
+						session.setAttribute("isError", "1");
+				    	result = "插入管理员"+adminName+"的信息失败";
+					}
+			    }
+			    adminDao.close();
 			    session.setAttribute("result", result);
 			    response.sendRedirect(request.getContextPath()+"/admin/homepage.jsp");
 				break;
