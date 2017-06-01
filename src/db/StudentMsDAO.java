@@ -113,7 +113,7 @@ public class StudentMsDAO extends MsDAO{
 		sql="select * from TB_Student";
 		return queryDBForList(sql);
 	}
-	
+	 
 	public ArrayList<Map<String,String>> querySelectStudentListByTeacherID(String TeacherID){
 		sql="select * from TB_Student where ChoosedState = 3 and TeacherID = '"+TeacherID+"'";
 //		System.out.println(sql);
@@ -139,6 +139,29 @@ public class StudentMsDAO extends MsDAO{
 //		System.out.println(sql);
 		return updateDB(sql);
 	}
+    
+    // 分页
+    public ArrayList<Map<String,String>> findOnePageStudent(int pageSize, int pageIndex) {
+    	sql="select * from (select rownum as r,t.* from" +  
+                "(select TB_Student.* from TB_Student order by hiredate desc) t where  rownum<="+(pageSize*pageIndex)  
+                +") where r>"+pageSize*(pageIndex-1);
+		return queryDBForList(sql);//返回javaBean
+	}
+    /** 
+     *  获取员工的总数 
+     *  
+     */  
+    public int countEmp(){    
+        sql="select count(*) from TB_Student"; 
+        return queryDBForCount(sql);  
+    }  
 	
+    /** 
+     *  根据每页显示的数量, 得到总页数 
+     */    
+    public int getTotalPage(int pageSize){  
+        int totalPage=countEmp();  
+        return (totalPage%pageSize==0)?(totalPage/pageSize):(totalPage/pageSize+1);  
+    }  
 }
 

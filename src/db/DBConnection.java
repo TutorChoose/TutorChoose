@@ -6,6 +6,7 @@ import java.util.Map;
 import  java.util.Properties;
 
 import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
 import  java.io.InputStream;
@@ -107,6 +108,25 @@ public class DBConnection implements java.io.Serializable{
 		}
 		
 		return results;
+	}
+	
+	public int queryForCount(String sql){
+		int count = 0;
+		ArrayList<Map<String,String>> results=null;
+		try {
+			stmt=(Statement) con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			rs=stmt.executeQuery(sql);
+			if(rs!=null){
+				results=new ArrayList<Map<String,String>>();
+				while(rs.next()){
+					count++;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return count;
 	}
 	
 	
