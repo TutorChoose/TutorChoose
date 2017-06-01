@@ -95,7 +95,7 @@ public class AddInfoServlet extends HttpServlet {
 			    	result = "学生学号为"+StuID+"的数据已存在";
 			    } else {
 			        // 插入到数据库
-			        i = stuDao.addStudent(StuID,StuName,DeptID,ClassID,Sex,Grade,tel,Intro);
+			        int i = stuDao.addStudent(StuID,StuName,DeptID,ClassID,Sex,Grade,tel,Intro);
 				    if (i > 0) {
 				    	session.setAttribute("isError", "0");
 				    	result = "成功插入学生"+StuName+"的数据";
@@ -119,7 +119,7 @@ public class AddInfoServlet extends HttpServlet {
 			    	result = "系编号为"+DeptID+"的数据已存在";
 			    } else {
 			    	// 插入到数据库
-			    	i = deptDao.addDept(DeptID,deptName);
+			    	int i = deptDao.addDept(DeptID,deptName);
 				    if (i > 0) {
 				    	session.setAttribute("isError", "0");
 				    	result = "成功插入系"+deptName+"的数据";
@@ -142,7 +142,7 @@ public class AddInfoServlet extends HttpServlet {
 			    	result = "班级编号为"+ClassID+"的数据已存在";
 			    } else {
 					// 插入到数据库
-			        i = classDao.addClass(ClassID, className, DeptID);
+			       int i = classDao.addClass(ClassID, className, DeptID);
 				    if (i > 0) {
 				    	session.setAttribute("isError", "0");
 				    	result = "成功插入班级"+className+"的数据";
@@ -166,7 +166,7 @@ public class AddInfoServlet extends HttpServlet {
 			    	result = "管理员编号为"+adminID+"的数据已存在";
 			    } else {
 					// 插入到数据库
-			        i = adminDao.addAdmin(adminID, adminName, aPassword,tel);
+			        int i = adminDao.addAdmin(adminID, adminName, aPassword,tel);
 				    if (i > 0) {
 				    	session.setAttribute("isError", "0");
 				    	result = "成功插入管理员"+adminName+"的数据";
