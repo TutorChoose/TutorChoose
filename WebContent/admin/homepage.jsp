@@ -19,7 +19,7 @@
 	ClassMsDAO classDao = new ClassMsDAO();
 	TeacherMsDAO teacherDao = new TeacherMsDAO();
 	StudentMsDAO studentDao = new StudentMsDAO();
-	%>
+     %>
 	<!-- 添加教师模态框   -->
 	<form action="addInfo" method="post" class="form-horizontal" onsubmit="return checkTeacher()">
 		<div class="modal fade" id="addTeacherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
