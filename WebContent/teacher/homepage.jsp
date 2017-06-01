@@ -107,6 +107,13 @@
     	color: #d9534f;
     	line-height: 30px;
 	}
+	#stuIntroTd {
+		padding:10px 40px!important;
+		word-wrap:break-word;
+		text-align:left;
+		line-height:2.0em;
+		font-size:1.0em;
+	}
 </style>
 <script type="text/javascript" language="javascript">
 	/*获取从servlet返回的信息，显示成功或失败*/
@@ -212,7 +219,7 @@
 			$(".introTr").remove();
 			if(introId != $(this).val()) {
 				introId = $(this).val();
-				$(this).parent().parent('tr').after("<tr class='introTr'><td colspan='11' style='padding:10px!important;word-wrap:break-word;'>"+introMap[introId]+"</td></tr>");
+				$(this).parent().parent('tr').after("<tr class='introTr'><td colspan='11' id='stuIntroTd'>"+introMap[introId].replace(/ /g,'&nbsp;')+"</td></tr>");
 			}
 			else {
 				introId = null;

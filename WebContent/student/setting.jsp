@@ -229,9 +229,9 @@
 <script type="text/javascript" language="javascript">
 	/*获取从servlet返回的信息，显示成功或失败*/
 	<%
-	String result = (String)s.getAttribute("result");
-	String isError = (String)s.getAttribute("isError");
-	//System.out.println(result + isError);
+	String result = (String)session.getAttribute("result");
+	String isError = (String)session.getAttribute("isError");
+	System.out.println(result + isError);
 	if(result != null) {
 		if(isError.equals("0")) {
 	%>
@@ -239,8 +239,8 @@
 	<%  } else {%>
 			swal("失败", "<%=result%>", "error");
 	<%	}
-		s.removeAttribute("result");
-		s.removeAttribute("isError");
+		session.removeAttribute("result");
+		session.removeAttribute("isError");
 	} %>
 	$(function() {
 	    $('#changePasswordModal').modal('hide');

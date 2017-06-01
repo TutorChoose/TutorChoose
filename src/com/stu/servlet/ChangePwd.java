@@ -32,24 +32,24 @@ public class ChangePwd extends HttpServlet {
 		String stuId = (String)session.getAttribute("stuId");
 		StudentDAO so = new StudentDAO();
 		if(request.getParameter("newPassword") != null){
-		String stuPwd = request.getParameter("newPassword");
-		int num = so.changeStuPassword(stuId, stuPwd);
-		if(num > 0){
-			//鎴愬姛淇敼
-			session.setAttribute("stuPwd", stuPwd);
-			request.setAttribute("stuPwd", stuPwd);
-			session.setAttribute("result", "修改密码成功");
-			session.setAttribute("isError", "0");
-			response.sendRedirect("setting.jsp");
-//			request.getRequestDispatcher("student/setting.jsp").forward(request, response);  
-		}
-		else{
-			//淇敼澶辫触,閿欒鎻愰啋
-			session.setAttribute("result", "修改密码失败");
-			session.setAttribute("isError", "1");
-			response.sendRedirect("setting.jsp");
-//			request.getRequestDispatcher("student/setting.jsp").forward(request, response);  			
-		}
+			String stuPwd = request.getParameter("newPassword");
+			int num = so.changeStuPassword(stuId, stuPwd);
+			if(num > 0){
+				//鎴愬姛淇敼
+				session.setAttribute("stuPwd", stuPwd);
+				request.setAttribute("stuPwd", stuPwd);
+				session.setAttribute("result", "修改密码成功");
+				session.setAttribute("isError", "0");
+				response.sendRedirect("setting.jsp");
+	//			request.getRequestDispatcher("student/setting.jsp").forward(request, response);  
+			}
+			else{
+				//淇敼澶辫触,閿欒鎻愰啋
+				session.setAttribute("result", "修改密码失败");
+				session.setAttribute("isError", "1");
+				response.sendRedirect("setting.jsp");
+	//			request.getRequestDispatcher("student/setting.jsp").forward(request, response);  			
+			}
 		}
 		else{
 			//淇敼鑱旂郴鏂瑰紡鍜岀畝浠�
