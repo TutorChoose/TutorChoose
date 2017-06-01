@@ -158,7 +158,7 @@ var k=0;
 		$('#teacher').DataTable( {
 			data: array,
 			"bLengthChange": false, //改变每页显示数据数量
-			ordering: false,
+			ordering: true,
 			"oLanguage": { 
 				"sLengthMenu": "每页显示 _MENU_ 条记录", 
 				"sZeroRecords": "抱歉， 没有找到", 
