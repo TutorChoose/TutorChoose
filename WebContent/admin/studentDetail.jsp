@@ -398,7 +398,6 @@ select {
 				});
 		}
 		$("#DeptID").change(function(){
-			//var deptValue = $("#DeptID  option:selected").val();
 	        var deptValue = $(this).val();
 	        //如果值不为空，则将下拉框的值传送给服务器
 	        if (deptValue != "") {
@@ -415,7 +414,7 @@ select {
 	                            $("<option value='" + objs[i].classid + "'>" + objs[i].classname + "</option>").appendTo($("#ClassID"));
 	                        }
 	                    } else {
-	                        //没有任何汽车类型的数据
+	                        //没有系的数据
 	                        //$("#ClassID").hide();
 	                    }
 	                    $(this).data(deptValue, objs);

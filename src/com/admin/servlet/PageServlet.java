@@ -38,20 +38,6 @@ public class PageServlet extends HttpServlet {
         response.setContentType("text/json;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         
-//        JSONArray jsonArrayResult = new JSONArray();
-//        
-//        ClassMsDAO classDao = new ClassMsDAO();
-//		ArrayList<Map<String, String>> classMsgs = classDao.queryClassByDeptID(deptID);
-//		for (Map<String, String> classMsg : classMsgs) {
-//			jsonArrayResult.add(classMsg);
-//		}
-//        System.out.println(jsonArrayResult);
-//
-//        PrintWriter out = response.getWriter();
-//        out.write(jsonArrayResult.toString());
-//        out.flush();
-//        out.close();
-        
 		StudentMsDAO studentDao=new StudentMsDAO();  
         int pageSize=4;// 每页显示的记录  
         int totalpages=studentDao.getTotalPage(pageSize); // 最大页数
@@ -68,12 +54,18 @@ public class PageServlet extends HttpServlet {
             pageIndex=totalpages;  
         } 
         
+        JSONArray jsonArrayResult = new JSONArray();
+        
         ArrayList<Map<String, String>> studentMsgs = studentDao.findOnePageStudent(pageSize,pageIndex);
     	  for (Map<String, String> studentMsg : studentMsgs) { 
-           String StuID = studentMsg.get("stuid");  
-           String StuName = studentMsg.get("stuname");
-    	}
+    		  jsonArrayResult.add(studentMsg);
+    	  }
         studentDao.close(); 
+        
+        PrintWriter out = response.getWriter();
+        out.write(jsonArrayResult.toString());
+        out.flush();
+        out.close();
 	}
 
 	/**

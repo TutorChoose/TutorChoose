@@ -131,8 +131,8 @@
 						</div>
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">系编号：</label>
-						    <div class="col-sm-7">
-    							<select name='DeptID' id='DeptID' class='form-control'>
+						    <div class="col-sm-7"> 
+    							<select name='DeptID' id='addStuDeptID' class='form-control'>
 						  	    <%
 						  	    for (Map<String, String> deptMsg : deptMsgs) { %>
 						  	    	<option value =<%=deptMsg.get("deptid") %>>
@@ -144,13 +144,7 @@
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">班级编号：</label>
 						    <div class="col-sm-7">
-    							<select name='ClassID' id='ClassID' class='form-control'>"+
-						  	    <% 
-						  		ArrayList<Map<String, String>> classMsgs = classDao.queryClassAll();
-						  	    for (Map<String, String> classMsg : classMsgs) { %>
-						  	    	<option value =<%=classMsg.get("classid") %>>
-						  	    	<%=classMsg.get("classname") %></option>
-						 		<%}%>
+    							<select name='ClassID' id='addStuClassID' class='form-control'>
 						 		</select>
     						</div>
 						</div>
@@ -577,6 +571,7 @@
 	var arrayClass = new Array();
 	var m=0;
 	<%   
+	ArrayList<Map<String, String>> classMsgs = classDao.queryClassAll();
 	for (Map<String, String> classMsg : classMsgs) {
 		String  viewClass = "<a href='classDetail.jsp?classid="+classMsg.get("classid")+"'>"+classMsg.get("classname")+"</a>";
 		String  editClass = "<button class='btn btn-info' data-toggle='modal' data-target='#editClassModal' onClick=editClass(\'"+classMsg.get("classid")+"\',\'"+classMsg.get("classname")+"\',\'"+classMsg.get("deptid")+"\')>编辑班级</button>";
@@ -844,6 +839,62 @@
 			"bStateSave": true //保存状态到cookie *************** 很重要 ， 当搜索的时候页面一刷新会导致搜索的消失。使用这个属性就可避免了 
 			}
 		});
+		
+		/*添加学生模态框的班级初始化*/
+		var deptValue = $("#addStuDeptID").val();
+        //如果值不为空，则将下拉框的值传送给服务器
+        if (deptValue != "") {
+            if (!$("#addStuDeptID").data(deptValue)) {
+                //对应服务器端程序ClassServlet的属性，并将该Servlet中的数据转换为JSON格式
+                $.post("class",{deptID: deptValue},function(data){
+                    //接收服务器返回的班级 ,data为数组格式
+                    var objs=eval(data); //解析json对象
+                    //解析班级的数据，填充到班级下拉框中
+                    $("#addStuClassID").html("");
+                    $("<option value=''>请选择班级</option>").appendTo($("#addStuClassID"));
+                    if (objs.length != 0) {
+                        for (var i = 0; i < objs.length; i++) {
+                            $("<option value='" + objs[i].classid + "'>" + objs[i].classname + "</option>").appendTo($("#addStuClassID"));
+                        }
+                    } else {
+                        //没有任何汽车类型的数据
+                        //$("#ClassID").hide();
+                    }
+                    $("#addStuDeptID").data(deptValue, objs);
+                }, "json"); 
+            }
+        } else {
+            //如果值为空，那么班级下拉框要隐藏
+            $("#addStuClassID").hide();
+        }
 	});
+	$("#addStuDeptID").change(function(){
+        var deptValue = $(this).val();
+        //如果值不为空，则将下拉框的值传送给服务器
+        if (deptValue != "") {
+            if (!$(this).data(deptValue)) {
+                //对应服务器端程序ClassServlet的属性，并将该Servlet中的数据转换为JSON格式
+                $.post("class",{deptID: deptValue},function(data){
+                    //接收服务器返回的班级 ,data为数组格式
+                    var objs=eval(data); //解析json对象
+                    //解析班级的数据，填充到班级下拉框中
+                    $("#addStuClassID").html("");
+                    $("<option value=''>请选择班级</option>").appendTo($("#addStuClassID"));
+                    if (objs.length != 0) {
+                        for (var i = 0; i < objs.length; i++) {
+                            $("<option value='" + objs[i].classid + "'>" + objs[i].classname + "</option>").appendTo($("#addStuClassID"));
+                        }
+                    } else {
+                        //没有任何系的数据
+                        //$("#addStuClassID").hide();
+                    }
+                    $(this).data(deptValue, objs);
+                }, "json"); 
+            }
+        } else {
+            //如果值为空，那么班级下拉框要隐藏
+            $("#addStuClassID").hide();
+        }
+    });
 </script>
 </html>

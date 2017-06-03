@@ -48,8 +48,7 @@ public class ClassServlet extends HttpServlet {
 		for (Map<String, String> classMsg : classMsgs) {
 			jsonArrayResult.add(classMsg);
 		}
-		
-		System.out.println(jsonArrayResult);
+		classDao.close();
 
         PrintWriter out = response.getWriter();
         out.write(jsonArrayResult.toString());
