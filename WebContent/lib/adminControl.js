@@ -6,9 +6,10 @@ $(function() {
     $('#editDeptModal').modal('hide');
     $('#editClassModal').modal('hide');
 });
-function editClass(classid, classname) {
+function editClass(classid, classname, deptid) {
 	$("#editClassID").val(classid.toString());
-	$("#editClassName").val(classname.toString());	
+	$("#editClassName").val(classname.toString());
+	$("#currentClassDeptID").val(deptid.toString());
 }
 
 function editDept(deptid, deptname) {

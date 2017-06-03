@@ -19,7 +19,7 @@
 	ClassMsDAO classDao = new ClassMsDAO();
 	TeacherMsDAO teacherDao = new TeacherMsDAO();
 	StudentMsDAO studentDao = new StudentMsDAO();
-     %>
+	%>
 	<!-- 添加教师模态框   -->
 	<form action="addInfo" method="post" class="form-horizontal" onsubmit="return checkTeacher()">
 		<div class="modal fade" id="addTeacherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -312,18 +312,7 @@
     							<input type='text' class="form-control" id="editClassID" placeholder='请填写班级编号' name='ClassID' readonly/>
     						</div>
 						</div>
-						<div class="form-group">
-						    <label class="col-sm-4 control-label">系编号：</label>
-						    <div class="col-sm-7">
-    							<select name='DeptID' id='DeptID' class='form-control'>
-						  	    <%for (Map<String, String> deptMsg : deptMsgs) { %>
-						  	    	<option value =<%=deptMsg.get("deptid") %>>
-						  	    	<%=deptMsg.get("deptname")%>
-						  	    	</option>
-						 		<%}%>
-						 		</select>
-    						</div>
-						</div>
+						<input type="hidden" name="DeptID" id="currentClassDeptID"/>
 						<div class="form-group">
 						    <label class="col-sm-4 control-label">班级名：</label>
 						    <div class="col-sm-7">
@@ -590,7 +579,7 @@
 	<%   
 	for (Map<String, String> classMsg : classMsgs) {
 		String  viewClass = "<a href='classDetail.jsp?classid="+classMsg.get("classid")+"'>"+classMsg.get("classname")+"</a>";
-		String  editClass = "<button class='btn btn-info' data-toggle='modal' data-target='#editClassModal' onClick=editClass(\'"+classMsg.get("classid")+"\',\'"+classMsg.get("classname")+"\')>编辑班级</button>";
+		String  editClass = "<button class='btn btn-info' data-toggle='modal' data-target='#editClassModal' onClick=editClass(\'"+classMsg.get("classid")+"\',\'"+classMsg.get("classname")+"\',\'"+classMsg.get("deptid")+"\')>编辑班级</button>";
 		//String  deleteClass = "<a class='btn btn-danger' onClick=deleteData(\'"+classMsg.get("classid")+"\',\'"+classMsg.get("classname")+"\',\'"+"class"+"\')>删除</a>";
 	%>
 		var n = new Array(4);

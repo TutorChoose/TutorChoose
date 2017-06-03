@@ -121,7 +121,7 @@ public class SelectTeacher extends HttpServlet {
 			}
 			//student's grade is not satisfied the rule
 			else if(num == 4){
-				String result = "你不符合当前选择导师规则";
+				String result = "您的绩点低于已选该导师学生绩点最低者";
 				session.setAttribute("result", result);
 				session.setAttribute("isError", "1");
 				response.sendRedirect("detail.jsp?teacherid="+teacherId);

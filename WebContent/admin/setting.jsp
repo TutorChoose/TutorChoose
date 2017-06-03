@@ -194,21 +194,21 @@
 	}
 </style>
 <script type="text/javascript" language="javascript">
+	<%
+	String result = (String)session.getAttribute("result");
+	String isError = (String)session.getAttribute("isError");
+	if(result != null) {
+		if(isError.equals("0")) {
+	%>
+			swal("成功", "<%=result%>", "success");
+	<%  } else {%>
+			swal("失败", "<%=result%>", "error");
+	<%	}
+	} 
+	session.removeAttribute("result");
+	session.removeAttribute("isError");
+	%>
 	$(document).ready(function(){
-		<%
-		String result = (String)session.getAttribute("result");
-		String isError = (String)session.getAttribute("isError");
-		if(result != null) {
-			if(isError.equals("0")) {
-		%>
-				swal("成功", "<%=result%>", "success");
-		<%  } else {%>
-				swal("失败", "<%=result%>", "error");
-		<%	}
-		} 
-		session.removeAttribute("result");
-		session.removeAttribute("isError");
-		%>
 		$(".systemAuthority").change(function() {
 			var titleMsg = "";
 			if($(".systemAuthority").get(0).checked) {
