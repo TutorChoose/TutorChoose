@@ -57,6 +57,14 @@
     <servlet-name>ClassServlet</servlet-name>
     <url-pattern>/admin/class</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>PageServlet</servlet-name>
+    <servlet-class>com.admin.servlet.PageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PageServlet</servlet-name>
+    <url-pattern>/admin/page</url-pattern>
+  </servlet-mapping>
   <!-- 过滤器配置 -->
   <filter>
     <filter-name>LogFilter</filter-name>

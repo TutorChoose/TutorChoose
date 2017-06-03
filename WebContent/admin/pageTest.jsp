@@ -7,6 +7,7 @@
     <title>Oracle 分页 </title>  
   </head>  
   <body>  
+      <%@ include file="navbar.jsp"%>
       <%  
         StudentMsDAO studentDao=new StudentMsDAO();  
         int pageSize=4;// 每页显示的记录  
@@ -38,13 +39,28 @@
             <td><%=studentMsg.get("stuname") %></td>
          </tr>  
       <% }%>  
-    </table>   
-         <a href="pageTest.jsp?pageIndex=1"> 首页 </a>   
-         <a href="pageTest.jsp?pageIndex=<%=pageIndex-1 %>"> 上一页 </a>  
-         <a href="pageTest.jsp?pageIndex=<%=pageIndex+1 %>"> 下一页 </a>  
-         <a href="pageTest.jsp?pageIndex=<%=totalpages%>"> 末页 </a>  
-         <br/>  
-         <p style='color:red'> 当前页数:<%=pageIndex%></p> 
+    </table>    
+         <div>
+           <nav aria-label="Page navigation"
+				style="width:1600px;position:absolute;left:1010px;top:780px">
+			 <ul class="pagination">
+				<li><a href="stuTeamInfo.jsp?page=<%=pageIndex - 1%>"
+					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+				</a></li>
+				<%
+					for (int i = 0; i < totalpages; i++) {
+				%>
+
+				<li><a href="pageTest.jsp?pageIndex=<%=i+1 %>"> <%=i+1 %></a></li>
+				<%
+					}
+				%>
+				<li><a href="stuTeamInfo.jsp?page=<%=pageIndex + 1%>"
+					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+				</a></li>
+			</ul>
+			</nav>
+        </div>
      <%studentDao.close(); %> 
   </body>  
 </html>  
