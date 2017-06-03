@@ -54,7 +54,7 @@ CREATE TABLE TB_Student
   ClassID VARCHAR(6) NOT NULL REFERENCES TB_Class(ClassID), --班级编号，外键
   Sex VARCHAR(1) DEFAULT 'M', --性别
   SPassword VARCHAR(16) DEFAULT '123456', --学生密码
-  Grade Double NOT NULL, --绩点
+  Grade float NOT NULL, --绩点
   tel VARCHAR(13), --电话
   Intro TEXT, --自我介绍
   TeacherID VARCHAR(16) DEFAULT null, --教师姓名
@@ -69,7 +69,7 @@ CREATE TABLE TB_SelectTeacher
 ( StuID VARCHAR(16) NOT NULL REFERENCES TB_Student(StuID),  --学生学号
   TeacherID VARCHAR(16) NOT NULL REFERENCES TB_Teacher(TeacherID), --教师编号，外键
   SelectDate DATETIME DEFAULT NOW(), --选择日期
-  Grade Double NOT NULL, /*绩点*/
+  Grade float NOT NULL, /*绩点*/
   choosedState INTEGER DEFAULT 0, /* 待定0 | 淘汰1 | 成功2*/
   CONSTRAINT PK_StuID_TeacherID PRIMARY KEY (StuID, TeacherID, SelectDate)  --主键
 );

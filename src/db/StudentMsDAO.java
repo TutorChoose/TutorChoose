@@ -141,10 +141,9 @@ public class StudentMsDAO extends MsDAO{
 	}
     
     // ∑÷“≥
-    public ArrayList<Map<String,String>> findOnePageStudent(int pageSize, int pageIndex) {
-    	sql="select * from (select rownum as r,t.* from" +  
-                "(select TB_Student.* from TB_Student order by hiredate desc) t where  rownum<="+(pageSize*pageIndex)  
-                +") where r>"+pageSize*(pageIndex-1);
+    public ArrayList<Map<String,String>> findOnePageStudent(int pageSize, int pageIndex) { 
+    	sql="select * from TB_Student where StuID >= (select StuID from TB_Student limit "+(pageSize*pageIndex)+",1) limit "+pageSize;
+    	System.out.println(sql);
 		return queryDBForList(sql);//∑µªÿjavaBean
 	}
     /** 

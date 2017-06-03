@@ -111,7 +111,5 @@ public class ClassMsDAO extends MsDAO{
 		sql="select * from TB_Class where DeptID = '"+DeptID+"'";
 		return queryDBForList(sql);
 	}
-
-
 }
 

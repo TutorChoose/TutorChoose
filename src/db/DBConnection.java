@@ -114,18 +114,17 @@ public class DBConnection implements java.io.Serializable{
 		int count = 0;
 		ArrayList<Map<String,String>> results=null;
 		try {
-			stmt=(Statement) con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			stmt=(Statement) con.prepareStatement(sql);
 			rs=stmt.executeQuery(sql);
 			if(rs!=null){
 				results=new ArrayList<Map<String,String>>();
 				while(rs.next()){
-					count++;
+					count=rs.getInt(1); 
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return count;
 	}
 	

@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>  
-<%@ page import="db.StudentMsDAO"%> 
+<%@ page import="db.StudentMsDAO"%>
   
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">  
 <html>  
@@ -11,7 +11,7 @@
         StudentMsDAO studentDao=new StudentMsDAO();  
         int pageSize=4;// 每页显示的记录  
         int totalpages=studentDao.getTotalPage(pageSize); // 最大页数  
-        String currentPage=request.getParameter("pageIndex"); // 获得当前的页数，即第几页  
+        String currentPage=request.getParameter("pageIndex"); // 获得当前的页数，即第几页 
         if(currentPage==null){  
             currentPage="1";  
         }  
@@ -22,23 +22,20 @@
         }else if(pageIndex>totalpages){  
             pageIndex=totalpages;  
         }  
-        List list= studentDao.findOnePageStudent(pageSize,pageIndex);  // 返回特定页数的数据  
       %>  
       <!-- 循环显示员工的数据 -->  
        <table border="1">  
           <tr>  
              <td> 学号 </td>  
              <td> 学生姓名 </td>  
-             <td> 班级 </td>  
           </tr>  
       <%  
-        Map map=null;  
-        for(int i=0;i<list.size();i++){  
-            map=(Map)list.get(i);  
+      ArrayList<Map<String, String>> studentMsgs = studentDao.findOnePageStudent(pageSize,pageIndex);
+  	  for (Map<String, String> studentMsg : studentMsgs) {
        %>   
          <tr>  
-            <td><%=map.get("stuid") %></td>  
-            <td><%=map.get("stuname") %></td>  
+            <td><%=studentMsg.get("stuid") %></td>  
+            <td><%=studentMsg.get("stuname") %></td>
          </tr>  
       <% }%>  
     </table>   
@@ -47,8 +44,7 @@
          <a href="pageTest.jsp?pageIndex=<%=pageIndex+1 %>"> 下一页 </a>  
          <a href="pageTest.jsp?pageIndex=<%=totalpages%>"> 末页 </a>  
          <br/>  
-         <p style="color:red""> 当前页数:<%=pageIndex%></p> 
-         
+         <p style='color:red'> 当前页数:<%=pageIndex%></p> 
      <%studentDao.close(); %> 
   </body>  
 </html>  
