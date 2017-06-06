@@ -11,7 +11,9 @@
     <%  
         StudentMsDAO studentDao=new StudentMsDAO();  
         int pageSize=4;// 每页显示的记录  
-        int totalpages=studentDao.getTotalPage(pageSize); // 最大页数  
+        String searchType = "searchById";
+        String searchCondiction = "40201";
+        int totalpages=studentDao.getTotalPage(pageSize, searchType, searchCondiction); // 最大页数  
      %>  
      <!-- 循环显示员工的数据 -->  
      <table border="1"> 
@@ -22,8 +24,8 @@
            	</tr>   
        	</thead>
         <tbody id="tableBody">
-	      <%  
-	      ArrayList<Map<String, String>> studentMsgs = studentDao.findOnePageStudent(pageSize,1);
+	     <%  
+	      ArrayList<Map<String, String>> studentMsgs = studentDao.findOnePageStudent(pageSize,1,searchType,searchCondiction);
 	  	  for (Map<String, String> studentMsg : studentMsgs) {
 	       %>   
 	         <tr>  
@@ -32,7 +34,16 @@
 	         </tr>  
 	      <% }%>  
 	    </tbody>
-	</table>    
+	</table> 
+	<form action="page" method="get">
+	  searchType: 
+	  <select type="text" name="searchType"/>
+	    <option value="searchById">按学号查询</option>
+	    <option value="searchByName">按姓名查询</option>
+	  </select>
+      searchCondiction: <input type="text" name="searchCondiction"/>
+      <button type="submit">search</button>
+	</form> 
 	<ul class="pagination" id="pageNum">
 		<li>
 			<a aria-label="Previous" onClick="showPage(-1)" style="cursor: pointer">
@@ -80,11 +91,10 @@
                 	$("<tr><td>"+objs[i].stuid+"</td><td>"+objs[i].stuname+"</td></tr>").appendTo($("#tableBody"));
                 }
                 $("#pageNum li a").css({"background-color":"#fff","color":"#23527c"});
-                $("#pageNum li:eq("+(pageIndex)+") a").css({"background-color":"#5d9cec","color":"#fff"});
-                
+                $("#pageNum li:eq("+(pageIndex)+") a").css({"background-color":"#5d9cec","color":"#fff"}); 
             } else {
                 //没有任何数据
-                //$("#tableBody").hide();
+                $("#tableBody").hide();
             }
         }, "json");
   	}

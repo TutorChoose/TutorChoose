@@ -65,7 +65,7 @@ public class StudentMsDAO extends MsDAO{
 			return -1;
 		}
 	}
-		
+    
 	//根据学号查询学生信息
     public StudentMsg findOneStudent(String stuId) {
 		sql = "select * from TB_Student where StuId='" + stuId + "'";
@@ -141,25 +141,50 @@ public class StudentMsDAO extends MsDAO{
 	}
     
     // 分页
-    public ArrayList<Map<String,String>> findOnePageStudent(int pageSize, int pageIndex) { 
-    	sql="select * from TB_Student where StuID >= (select StuID from TB_Student limit "+(pageSize*(pageIndex-1))+",1) limit "+pageSize;
+    public ArrayList<Map<String,String>> findOnePageStudent(int pageSize, int pageIndex, String searchType, String SearchCondiction) { 
+    	switch(searchType) {
+	    	case "":
+	    		sql="select * from TB_Student where StuID >= (select StuID from TB_Student limit "+(pageSize*(pageIndex-1))+",1) limit "+pageSize;
+	    		break;
+	    	case "searchById":
+	        	sql="select * from TB_Student where stuID LIKE '" + SearchCondiction + "%' and StuID >= (select StuID from TB_Student limit "+(pageSize*(pageIndex-1))+",1) limit "+pageSize;
+	    		break;
+	    	case "searchByName":
+	    		sql="select * from TB_Student where stuName LIKE '" + SearchCondiction + "%' and StuID >= (select StuID from TB_Student limit "+(pageSize*(pageIndex-1))+",1) limit "+pageSize;
+	    		break;
+	    	default: 
+	    		break;
+	    }
     	System.out.println(sql);
 		return queryDBForList(sql);//返回javaBean
 	}
+    
     /** 
      *  获取员工的总数 
      *  
      */  
-    public int countEmp(){    
-        sql="select count(*) from TB_Student"; 
+    public int countEmp(String sql){     
         return queryDBForCount(sql);  
     }  
 	
     /** 
      *  根据每页显示的数量, 得到总页数 
      */    
-    public int getTotalPage(int pageSize){  
-        int totalPage=countEmp();  
+    public int getTotalPage(int pageSize, String searchType, String searchCondiction){  
+    	switch(searchType) {
+	    	case "":
+	    		sql = "select count(*) from TB_Student";
+	    		break;
+	    	case "searchById":
+	    		sql = "select count(*) from TB_Student where StuID like '"+searchCondiction+"%';";
+	    		break;
+	    	case "searchByName":
+	    		sql = "select count(*) from TB_Student where StuName like '"+searchCondiction+"%';";
+	    		break;
+	    	default: 
+	    		break;
+    	}
+        int totalPage=countEmp(sql);  
         return (totalPage%pageSize==0)?(totalPage/pageSize):(totalPage/pageSize+1);  
     }  
 }

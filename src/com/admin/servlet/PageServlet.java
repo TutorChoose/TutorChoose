@@ -34,13 +34,27 @@ public class PageServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//解决中文乱码
-        response.setHeader("Cache-Control", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
         response.setContentType("text/json;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         
 		StudentMsDAO studentDao=new StudentMsDAO();  
         int pageSize=4;// 每页显示的记录  
-        int totalpages=studentDao.getTotalPage(pageSize); // 最大页数
+       
+        String searchType = "";
+        String searchCondiction = "";
+//        if(request.getParameter("searchType")!=null && request.getParameter("searchCondiction")!=null){
+//        	searchType = request.getParameter("searchType");
+//            searchCondiction = request.getParameter("searchCondiction");
+//        }
+        // System.out.println("searchType: "+searchType);
+        // System.out.println("searchCondiction: "+searchCondiction);
+       
+        searchType = "searchById";
+        searchCondiction = "40201";
+        
+        int totalpages=studentDao.getTotalPage(pageSize, searchType, searchCondiction); // 最大页数
+       
         // 得到当前的页数
         String currentPage=request.getParameter("pageIndex"); 
         if(currentPage==null){  
@@ -55,13 +69,12 @@ public class PageServlet extends HttpServlet {
         } 
         
         JSONArray jsonArrayResult = new JSONArray();
-        
-        ArrayList<Map<String, String>> studentMsgs = studentDao.findOnePageStudent(pageSize,pageIndex);
-    	  for (Map<String, String> studentMsg : studentMsgs) { 
-    		  jsonArrayResult.add(studentMsg);
-    	  }
+        ArrayList<Map<String, String>> studentMsgs = studentDao.findOnePageStudent(pageSize,pageIndex, searchType, searchCondiction);
+	    for (Map<String, String> studentMsg : studentMsgs) { 
+		  jsonArrayResult.add(studentMsg);
+	    }
         studentDao.close(); 
-        
+       // response.sendRedirect(request.getContextPath()+"/admin/pageTest.jsp");
         PrintWriter out = response.getWriter();
         out.write(jsonArrayResult.toString());
         out.flush();
