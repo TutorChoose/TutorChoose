@@ -43,15 +43,10 @@ public class PageServlet extends HttpServlet {
        
         String searchType = "";
         String searchCondiction = "";
-//        if(request.getParameter("searchType")!=null && request.getParameter("searchCondiction")!=null){
-//        	searchType = request.getParameter("searchType");
-//            searchCondiction = request.getParameter("searchCondiction");
-//        }
-        // System.out.println("searchType: "+searchType);
-        // System.out.println("searchCondiction: "+searchCondiction);
-       
-        searchType = "searchById";
-        searchCondiction = "40201";
+        if(request.getParameter("searchType")!=null && request.getParameter("searchCondiction")!=null){
+        	searchType = request.getParameter("searchType");
+            searchCondiction = request.getParameter("searchCondiction");
+        }
         
         int totalpages=studentDao.getTotalPage(pageSize, searchType, searchCondiction); // ×î´óÒ³Êý
        

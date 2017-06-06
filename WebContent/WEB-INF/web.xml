@@ -65,7 +65,22 @@
     <servlet-name>PageServlet</servlet-name>
     <url-pattern>/admin/page</url-pattern>
   </servlet-mapping>
-  <!-- 过滤器配置 -->
+  <servlet>
+    <servlet-name>StuDetailServlet</servlet-name>
+    <servlet-class>com.admin.servlet.StuDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StuDetailServlet</servlet-name>
+    <url-pattern>/admin/stuDetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>PageCountServlet</servlet-name>
+    <servlet-class>com.admin.servlet.PageCountServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PageCountServlet</servlet-name>
+    <url-pattern>/admin/pageCount</url-pattern>
+  </servlet-mapping>
   <filter>
     <filter-name>LogFilter</filter-name>
     <filter-class>com.bean.LoginFilter</filter-class>

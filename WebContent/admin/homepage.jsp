@@ -447,19 +447,45 @@
 								onClick="window.location.href='exportData?datatype=student'">导出学生</button>
 						    </div>
 
-							<table id="student" class="display" cellspacing="0" width="100%">
-								<thead>
-									<th>学号</th>
-									<th>姓名</th>
-									<th>系名</th>
-									<th>班级</th>
-									<th>性别</th>
-									<th>绩点</th>
-									<th>导师</th>
-									<th>状态</th>
-									<th>修改</th>
-									<th>删除</th>
-							</table>
+							
+						     <div class="pull-right" style="margin-bottom: 10px">
+							     <form class="form-inline" role="form">
+									<div class="form-group">
+									    <label control-label">类型</label>
+								      	<select type="text" name="searchType" id="searchType" class="form-control"/>
+										    <option value="searchById">按学号查询</option>
+										    <option value="searchByName">按姓名查询</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="control-label">关键词</label>
+									    <input type="text" name="searchCondiction" id="searchCondiction" class="form-control"/>
+									</div>
+									<button class="btn btn-default" type="button" onClick="searchStu()">搜索</button>
+								 </form>
+							 </div>
+						     <table> 
+						     	<thead>  
+						     		<tr>
+						     			<th>学号</th>
+										<th>姓名</th>
+										<th>系名</th>
+										<th>班级</th>
+										<th>性别</th>
+										<th>绩点</th>
+										<th>导师</th>
+										<th>状态</th>
+										<th>修改</th>
+										<th>删除</th>
+						           	</tr>   
+						       	</thead>
+						        <tbody id="tableBody">
+							      
+							    </tbody>
+							</table>    
+							<ul class="pagination pull-right" id="pageNum">
+								
+							</ul>
 						</div>
 						</p>
 					</section>
@@ -631,62 +657,199 @@
 	%>
 	
 	// 学生
-	var arrayStudent = new Array();
-	var m=0;
-	<%   
-	ArrayList<Map<String, String>> studentMsgs = studentDao.queryStudentList();
-	for (Map<String, String> studentMsg : studentMsgs) {
-		String  editStudent = "<a class='btn btn-info' href='studentDetail.jsp?stuid="+studentMsg.get("stuid")+"'>查看</a>";
-		String  deleteStudent = "<a class='btn btn-danger' onClick=deleteData(\'"+studentMsg.get("stuid")+"\',\'"+studentMsg.get("stuname")+"\',\'"+"student"+"\')>删除</a>";
-		String sex = "";
-		if(studentMsg.get("sex").equals("F")){
-			sex="男";
-		} else if(studentMsg.get("sex").equals("M")){
-			sex="女";
-		}
-		String  DeptName = deptDao.getDeptName(studentMsg.get("deptid"));
-		String  ClassName = classDao.getClassName(studentMsg.get("classid"));
-		
-		String tutor = "";
-		if(studentMsg.get("teacherid")!=null&&!studentMsg.get("teacherid").equals("")){
-			tutor=teacherDao.getTeacherName(studentMsg.get("teacherid"));
-		}else {
-			tutor="无";
-		}
-		
-		String choosedstate = "";
-		if(studentMsg.get("choosedstate").equals("0")){
-			choosedstate="<span>未选择</span>";
-		} else if(studentMsg.get("choosedstate").equals("1")){
-			choosedstate="<span>待定</span>";
-		} else if(studentMsg.get("choosedstate").equals("2")){
-			choosedstate="<span>淘汰</span>";
-		} else if(studentMsg.get("choosedstate").equals("3")){
-			choosedstate="<span>成功</span>";
-		}
-	%>
-		var n = new Array(10);
-		n[0] = "<%=studentMsg.get("stuid")%>";
-		n[1] = "<%=studentMsg.get("stuname")%>";
-		n[2] = "<%=DeptName%>";
-		n[3] = "<%=ClassName%>";
-		n[4] = "<%=sex%>";
-		n[5] = "<%=studentMsg.get("grade")%>";
-		n[6] = "<%=tutor%>";
-		n[7] = "<%=choosedstate%>";
-		n[8] = "<%=editStudent%>";
-		n[9] = "<%=deleteStudent%>";
-		arrayStudent[m] = n;
-		m++;
-	<%
-	}
-	%>
+	var pageIndex = 1;
+	var searchType = "";
+	var searchCondiction = "";
+	var totalpages = 1;
+  	$(document).ready(function(){
+  		$("#pageNum li:eq(2) a").css({"background-color":"#5d9cec","color":"#fff"});
+  		$("#pElsePre").hide();
+  		if(parseInt(totalpages)+2<10){
+  			$("#pElseNext").hide();
+  		}
+  		for(var j=7; j<parseInt(totalpages)+2; j++) {
+        	$("#pageNum li:eq("+j+")").hide();
+        }
+  		/*动态改变分页*/
+  		changePagination();
+  		
+  		/*动态改变表格*/
+  		changeTable();
+  	});
+  	function changeTable() {
+  		//对应服务器端程序PageServlet的属性，并将该Servlet中的数据转换为JSON格式
+        $.post("page",{searchType: searchType,searchCondiction: searchCondiction,pageIndex: pageIndex},function(data){
+            //接收服务器返回的班级 ,data为数组格式
+            var objs=eval(data); //解析json对象
+            //解析班级的数据，填充到班级下拉框中
+            $("#tableBody").html("");
+            if (objs.length != 0) {
+                for (var i = 0; i < objs.length; i++) {
+                	var sex = "";
+    				if(objs[i].sex=="F"){
+    					sex="男";
+    				} else if(objs[i].sex=="M"){
+    					sex="女";
+    				}
+    				
+    				var DeptName = "";
+    				var ClassName = "";
+    				var tutor = "";
+    			
+    				$.ajax({  
+    			        url : "stuDetail",
+    			        data : {type: "dept", deptID: objs[i].deptid},  // 参数  
+    			        type : "post",
+    			        cache : false, 
+    			        async: false,
+    			        dataType : "text", 
+    			        error: function(){
+	    			        console.log("error");
+    			        }, 
+    			        success:function(data){
+    			        	DeptName = data;
+    			        }  
+    			   	});
+    				$.ajax({  
+    			        url : "stuDetail",
+    			        data : {type: "class", classID: objs[i].classid},  // 参数  
+    			        type : "post",
+    			        cache : false, 
+    			        async: false,
+    			        dataType : "text", 
+    			        error: function(){
+	    			        console.log("error");
+    			        }, 
+    			        success:function(data){
+    			        	ClassName = data;
+    			        }  
+    			   	});
+
+    				if(objs[i].teacherid!=null&&!objs[i].teacherid==""){
+    					$.ajax({  
+        			        url : "stuDetail",
+        			        data : {type: "teacher", teacherID: objs[i].teacherid},  // 参数  
+        			        type : "post",
+        			        cache : false, 
+        			        async: false,
+        			        dataType : "text", 
+        			        error: function(){
+    	    			        console.log("error");
+        			        }, 
+        			        success:function(data){
+        			        	tutor = data;
+        			        }  
+        			   	});
+    				}
+    				else {
+    					tutor = "无";
+    				}
+    				
+    				var choosedstate = "";
+    				if(objs[i].choosedstate=="0"){
+    					choosedstate="<span>未选择</span>";
+    				} else if(objs[i].choosedstate=="1"){
+    					choosedstate="<span>待定</span>";
+    				} else if(objs[i].choosedstate=="2"){
+    					choosedstate="<span>淘汰</span>";
+    				} else if(objs[i].choosedstate=="3"){
+    					choosedstate="<span>成功</span>";
+    				}
+    				
+                	$("<tr><td>"+objs[i].stuid+"</td><td>"+objs[i].stuname+"</td><td>"+DeptName+"</td><td>"+ClassName+"</td><td>"+sex+"</td><td>"+objs[i].grade+"</td><td>"+tutor+"</td><td>"+choosedstate
+                			+"</td><td><a class='btn btn-info' href='studentDetail.jsp?stuid="+objs[i].stuid+"'>查看</a></td><td><a class='btn btn-danger' onClick=deleteData(\'"+objs[i].stuid+"\',\'"+objs[i].stuname+"\',\'"+"student"+"\')>删除</a></td></tr>").appendTo($("#tableBody"));
+                }
+                $("#pageNum li a").css({"background-color":"#fff","color":"#23527c"});
+                $("#pageNum li:eq("+(parseInt(pageIndex)+1)+") a").css({"background-color":"#5d9cec","color":"#fff"});
+                for(var j=2; j<parseInt(pageIndex)+1; j++) {
+                	$("#pageNum li:eq("+j+")").show();
+                }
+                for(var j=pageIndex; j<parseInt(pageIndex)+6; j++) {
+                	$("#pageNum li:eq("+j+")").show();
+                }
+                for(var j=2; j<parseInt(pageIndex)-3; j++) {
+                	$("#pageNum li:eq("+j+")").hide();
+                }
+                for(var j=parseInt(pageIndex)+6; j<parseInt(totalpages)+2; j++) {
+                	$("#pageNum li:eq("+j+")").hide();
+                }
+                if(pageIndex>5) {
+                	$("#pElsePre").show();
+                }
+                else {
+                	$("#pElsePre").hide();
+                }
+                if(parseInt(pageIndex)>parseInt(totalpages)-5) {
+                	$("#pElseNext").hide();
+                }
+                else {
+                	$("#pElseNext").show();
+                }
+                
+            } else {
+                //没有任何数据
+                //$("#tableBody").hide();
+            }
+        }, "json");
+  	}
+  	function changePagination() {
+  		$.ajax({  
+	        url : "pageCount",
+	        data : {searchType: searchType, searchCondiction: searchCondiction},  // 参数  
+	        type : "post",
+	        cache : false,
+	        dataType : "text", 
+	        error: function(){
+		        console.log("error");
+	        }, 
+	        success:function(data){
+	        	totalpages = parseInt(data);
+	        	if(totalpages>0) {
+	        		$("#pageNum").html("");
+	        		$("<li><a aria-label='Previous' onClick='showPage(-1)' style='cursor: pointer'><span aria-hidden='true'>&laquo;</span></a></li>").appendTo($("#pageNum"));
+	        		$("<li id='pElsePre'><a type='pre'>...</a></li>").appendTo($("#pageNum"));
+	        		for (var i = 0; i < totalpages; i++) {
+	                	$("<li><a onClick='showPage("+(i+1)+")' style='cursor: pointer'>"+(i+1)+"</a></li>").appendTo($("#pageNum"));
+	                }
+	        		$("<li id='pElseNext'><a type='next'>...</a></li>").appendTo($("#pageNum"));
+	        		$("<li><a aria-label='Next' onClick='showPage(-2)' style='cursor: pointer'> <span aria-hidden='true'>&raquo;</span></a></li>").appendTo($("#pageNum"));
+	        	}
+	        }  
+	   	});
+  	}
+  	function showPage(index) {
+  		if(index == -1) {
+            pageIndex--;
+        }
+        else if(index == -2) {
+        	pageIndex++;
+        }
+        else {
+        	pageIndex = index;
+        }
+  		searchType = $("select#searchType option:selected").val();
+  		searchCondiction = $("#searchCondiction").val();
+  		/*动态改变表格*/
+  		changeTable();
+  	}
+  	
+  	function searchStu() {
+  		pageIndex = 1;
+  		searchType = $("select#searchType option:selected").val();
+  		searchCondiction = $("#searchCondiction").val();
+  		
+  		/*动态改变分页*/
+  		changePagination();
+  		
+  		/*动态改变表格*/
+  		changeTable();
+  	}
 	
 	// 未选择导师学生
 	var arrayUnSelectedStudent = new Array();
 	var m2=0;
 	<%   
-	studentMsgs = studentDao.queryUnSelectStudentList();
+	ArrayList<Map<String, String>> studentMsgs = studentDao.queryUnSelectStudentList();
 	for (Map<String, String> studentMsg : studentMsgs) {
 		String sex = "";
 		if(studentMsg.get("sex").equals("F")){
@@ -757,26 +920,6 @@
 				}, 
 			"sZeroRecords": "没有检索到数据",
 			"bStateSave": true 
-			}
-		});
-		$('#student').DataTable({
-			data: arrayStudent,
-			"oLanguage": { 
-				"sLengthMenu": "每页显示 _MENU_ 条记录", 
-				"sZeroRecords": "抱歉， 没有找到", 
-				"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据", 
-				"sInfoEmpty": "没有数据", 
-				"sInfoFiltered": "(从 _MAX_ 条数据中检索)", 
-				"sSearch": "搜索",
-				"oPaginate": { 
-					"sFirst": "首页", 
-					"sPrevious": "前一页", 
-					"sNext": "后一页", 
-					"sLast": "尾页" 
-				}, 
-			"sZeroRecords": "没有检索到数据",
-			//"sProcessing": "<img src='./loading.gif' />",
-			"bStateSave": true //保存状态到cookie *************** 很重要 ， 当搜索的时候页面一刷新会导致搜索的消失。使用这个属性就可避免了 
 			}
 		});
 		$('#UnSelectedStudent').DataTable({
