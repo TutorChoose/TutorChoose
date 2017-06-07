@@ -788,7 +788,7 @@
                 
             } else {
                 //没有任何数据
-                //$("#tableBody").hide();
+                $("<tr><td colspan='10'>没有任何数据</td></tr>").appendTo($("#tableBody"));
             }
         }, "json");
   	}
@@ -814,15 +814,22 @@
 	        		$("<li id='pElseNext'><a type='next'>...</a></li>").appendTo($("#pageNum"));
 	        		$("<li><a aria-label='Next' onClick='showPage(-2)' style='cursor: pointer'> <span aria-hidden='true'>&raquo;</span></a></li>").appendTo($("#pageNum"));
 	        	}
+	        	else {
+	        		$("#pageNum").html("");
+	        	}
 	        }  
 	   	});
   	}
   	function showPage(index) {
   		if(index == -1) {
-            pageIndex--;
+  			if(pageIndex > 1) {
+            	pageIndex--;
+  			}
         }
         else if(index == -2) {
-        	pageIndex++;
+        	if(pageIndex < totalpages) {
+        		pageIndex++;
+        	}
         }
         else {
         	pageIndex = index;
@@ -1000,7 +1007,7 @@
                             $("<option value='" + objs[i].classid + "'>" + objs[i].classname + "</option>").appendTo($("#addStuClassID"));
                         }
                     } else {
-                        //没有任何汽车类型的数据
+                        //没有任何数据
                         //$("#ClassID").hide();
                     }
                     $("#addStuDeptID").data(deptValue, objs);

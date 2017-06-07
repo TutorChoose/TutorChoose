@@ -57,11 +57,11 @@ public class PageServlet extends HttpServlet {
         }  
         int pageIndex=Integer.parseInt(currentPage);  
         // Ìí¼ÓÂß¼­ÅÐ¶Ï£¬·ÀÖ¹Ò³ÊýÒì³£  
-        if(pageIndex<1){  
+        if(pageIndex<=1){  
             pageIndex=1;  
         }else if(pageIndex>totalpages){  
             pageIndex=totalpages;  
-        } 
+        }
         
         JSONArray jsonArrayResult = new JSONArray();
         ArrayList<Map<String, String>> studentMsgs = studentDao.findOnePageStudent(pageSize,pageIndex, searchType, searchCondiction);
